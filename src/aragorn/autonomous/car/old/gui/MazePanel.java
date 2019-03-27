@@ -6,9 +6,9 @@ import java.security.InvalidParameterException;
 import javax.swing.border.LineBorder;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.gui.Coordinate2D;
-import aragorn.gui.GUIPanel;
+import aragorn.gui.GuiPanel;
 
-class MazePanel extends GUIPanel {
+class MazePanel extends GuiPanel {
 	private AutonomousSystem autonomousSystem;
 
 	private int printStep;

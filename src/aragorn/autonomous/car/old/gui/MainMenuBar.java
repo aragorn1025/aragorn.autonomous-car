@@ -18,18 +18,18 @@ import aragorn.autonomous.car.old.objects.CircularCar;
 import aragorn.autonomous.car.old.objects.DefaultMaze;
 import aragorn.autonomous.car.old.objects.RandomGridMaze;
 import aragorn.autonomous.car.old.objects.RectangularCar;
-import aragorn.gui.GUIFrame;
-import aragorn.gui.GUIMenu;
-import aragorn.gui.GUIPanel;
+import aragorn.gui.GuiFrame;
+import aragorn.gui.GuiMenu;
+import aragorn.gui.GuiPanel;
 
 class MainMenuBar extends JMenuBar {
 	private JFileChooser fileChooser = new JFileChooser(Main.DESKTOP);
 
-	private GUIFrame			frame;
+	private GuiFrame			frame;
 	private AutonomousSystem	autonomousSystem;
-	private GUIPanel[]			panels;
+	private GuiPanel[]			panels;
 
-	MainMenuBar(GUIFrame frame, AutonomousSystem autonomousSystem, GUIPanel... panels) {
+	MainMenuBar(GuiFrame frame, AutonomousSystem autonomousSystem, GUIPanel... panels) {
 		this.frame = frame;
 		this.autonomousSystem = autonomousSystem;
 		this.panels = panels;
@@ -39,10 +39,10 @@ class MainMenuBar extends JMenuBar {
 
 	private void editMenuBar() {
 		removeAll();
-		add(new GUIMenu("File"));
-		getMenu(0).add(new GUIMenu("Import"));
+		add(new GuiMenu("File"));
+		getMenu(0).add(new GuiMenu("Import"));
 		getMenu(0).getItem(0).add(new ImportLinearMazeMenuItem(frame, fileChooser, autonomousSystem));
-		getMenu(0).add(new GUIMenu("Export"));
+		getMenu(0).add(new GuiMenu("Export"));
 		getMenu(0).getItem(1).add(new ExportLinearMazeMenuItem(frame, fileChooser, autonomousSystem));
 		getMenu(0).getItem(1).add(new ExportCarTrack4DMenuItem(frame, fileChooser, autonomousSystem));
 		getMenu(0).getItem(1).add(new ExportCarTrack6DMenuItem(frame, fileChooser, autonomousSystem));
@@ -50,15 +50,15 @@ class MainMenuBar extends JMenuBar {
 		// getMenu(0).getItem(1).add(new JMenuItem("Export All"));
 		getMenu(0).addSeparator();
 		getMenu(0).add(new ExitMenuItem(frame));
-		add(new GUIMenu("Play"));
+		add(new GuiMenu("Play"));
 		getMenu(1).add(new StartMenuItem(frame));
 		getMenu(1).add(new StopMenuItem(frame));
 		getMenu(1).addSeparator();
 		getMenu(1).add(new ResetMenuItem(frame, autonomousSystem, panels));
-		add(new GUIMenu("Maze"));
+		add(new GuiMenu("Maze"));
 		getMenu(2).add(new ChangeMazeMenuItem('1', frame, autonomousSystem, DefaultMaze.class, panels));
 		getMenu(2).add(new ChangeMazeMenuItem('2', frame, autonomousSystem, RandomGridMaze.class, panels));
-		add(new GUIMenu("Car"));
+		add(new GuiMenu("Car"));
 		getMenu(3).add(new ChangeCarMenuItem('1', frame, autonomousSystem, CircularCar.class, panels));
 		getMenu(3).add(new ChangeCarMenuItem('2', frame, autonomousSystem, RectangularCar.class, panels));
 	}

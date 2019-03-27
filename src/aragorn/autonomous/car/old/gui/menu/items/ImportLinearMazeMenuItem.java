@@ -12,11 +12,12 @@ import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.old.gui.Main;
 import aragorn.autonomous.car.old.math.operation.GeometryPolyline;
 import aragorn.autonomous.car.old.objects.LinearMaze;
-import aragorn.gui.GUIFrame;
-import aragorn.gui.GUIMenuItem;
+import aragorn.gui.GuiFrame;
+import aragorn.gui.GuiMenuItem;
 
-public class ImportLinearMazeMenuItem extends GUIMenuItem implements ActionListener {
-	private GUIFrame			frame;
+@SuppressWarnings("serial")
+public class ImportLinearMazeMenuItem extends GuiMenuItem implements ActionListener {
+	private GuiFrame			frame;
 	private JFileChooser		fileChooser;
 	private AutonomousSystem	autonomousSystem;
 
@@ -24,7 +25,7 @@ public class ImportLinearMazeMenuItem extends GUIMenuItem implements ActionListe
 	private static final String	FILE_IMPORT_DONE_MESSAGE		= new String("File import for maze is done.");
 	private static final String	FILE_NOT_FOUND_MESSAGE			= new String("File is not found.");
 
-	public ImportLinearMazeMenuItem(GUIFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
+	public ImportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
 		super("Import Linear Maze", '\0');
 		this.frame = frame;
 		this.fileChooser = fileChooser;

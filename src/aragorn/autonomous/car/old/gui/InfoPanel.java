@@ -1,12 +1,14 @@
 package aragorn.autonomous.car.old.gui;
 
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
-import aragorn.gui.GUIPanel;
+import aragorn.gui.GuiPanel;
 
-class InfoPanel extends GUIPanel {
+class InfoPanel extends GuiPanel {
 	private AutonomousSystem autonomousSystem;
 
 	private final String[]	STRINGS	= new String[] { "X", "Y", "Direction", "Wheel", "Front", "Left", "Right" };
@@ -22,9 +24,9 @@ class InfoPanel extends GUIPanel {
 		setAutonomousSystem(autonomousSystem);
 		for (int i = 0; i < STRINGS.length; i++) {
 			labels[i] = new JLabel(STRINGS[i]);
-			addComponent(labels[i], 0, i, 1, 1, 1, 0, GUIPanel.CENTER, GUIPanel.HORIZONTAL);
+			addComponent(labels[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 			fields[i] = new JTextField();
-			addComponent(fields[i], 1, i, 1, 1, 1, 0, GUIPanel.CENTER, GUIPanel.HORIZONTAL);
+			addComponent(fields[i], 1, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 		}
 		initial();
 		reset();

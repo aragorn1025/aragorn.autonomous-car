@@ -10,11 +10,12 @@ import javax.swing.JOptionPane;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.old.gui.Main;
 import aragorn.autonomous.car.old.math.operation.GeometryPolyline;
-import aragorn.gui.GUIFrame;
-import aragorn.gui.GUIMenuItem;
+import aragorn.gui.GuiFrame;
+import aragorn.gui.GuiMenuItem;
 
-public class ExportLinearMazeMenuItem extends GUIMenuItem implements ActionListener {
-	private GUIFrame			frame;
+@SuppressWarnings("serial")
+public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListener {
+	private GuiFrame			frame;
 	private JFileChooser		fileChooser;
 	private AutonomousSystem	autonomousSystem;
 
@@ -23,7 +24,7 @@ public class ExportLinearMazeMenuItem extends GUIMenuItem implements ActionListe
 	private static final String	FILE_OVERWRITE_MESSAGE			= new String("The file will be overwrite.");
 	private static final String	FILE_READ_ONLY_MESSAGE			= new String("The file is read only.");
 
-	public ExportLinearMazeMenuItem(GUIFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
+	public ExportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
 		super("Export Linear Maze", '\0');
 		this.frame = frame;
 		this.fileChooser = fileChooser;

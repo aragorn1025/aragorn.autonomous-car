@@ -4,18 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.old.objects.Car;
-import aragorn.gui.GUIFrame;
-import aragorn.gui.GUIMenuItem;
-import aragorn.gui.GUIPanel;
+import aragorn.gui.GuiFrame;
+import aragorn.gui.GuiMenuItem;
+import aragorn.gui.GuiPanel;
 
-public class ChangeCarMenuItem extends GUIMenuItem implements ActionListener {
-	private GUIFrame				frame;
+public class ChangeCarMenuItem extends GuiMenuItem implements ActionListener {
+	private GuiFrame				frame;
 	private AutonomousSystem		autonomousSystem;
 	private Class<? extends Car>	c;
-	private GUIPanel[]				panels;
+	private GuiPanel[]				panels;
 
-	public ChangeCarMenuItem(char mnemonic, GUIFrame frame, AutonomousSystem autonomousSystem, Class<? extends Car> c,
-			GUIPanel[] panels) {
+	public ChangeCarMenuItem(char mnemonic, GuiFrame frame, AutonomousSystem autonomousSystem, Class<? extends Car> c,
+			GuiPanel[] panels) {
 		super(getTitleName(c), mnemonic);
 		this.frame = frame;
 		this.autonomousSystem = autonomousSystem;

@@ -6,10 +6,10 @@ import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.old.fuzzy.system.FuzzyAutonomousSystem;
 import aragorn.autonomous.car.old.objects.CircularCar;
 import aragorn.autonomous.car.old.objects.DefaultMaze;
-import aragorn.gui.GUIFrame;
-import aragorn.gui.GUIPanel;
+import aragorn.gui.GuiFrame;
+import aragorn.gui.GuiPanel;
 
-class MainFrame extends GUIFrame {
+class MainFrame extends GuiFrame {
 	private AutonomousSystem	autonomousSystem;
 	private MazePanel			mazePanel;
 	private InfoPanel			infoPanel;

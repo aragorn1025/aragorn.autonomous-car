@@ -105,7 +105,7 @@ public abstract class Car implements Cloneable, Paintable {
 	}
 
 	@Override
-	public void paint(Graphics g, Coordinate2D c) {
+	public void draw(Graphics g, Coordinate2D c) {
 		g.setColor(Color.GRAY);
 		paintCarBodyCrossLine(g, c);
 		paintWheelDirectionRange(g, c);

@@ -2,7 +2,7 @@ package aragorn.autonomous.car.old.gui;
 
 import java.awt.Dimension;
 import java.io.File;
-import aragorn.gui.GUIFrame;
+import aragorn.gui.GuiFrame;
 
 public class Main {
 	public static final File		DESKTOP			= new File(System.getProperty("user.home") + "/Desktop");
@@ -12,7 +12,7 @@ public class Main {
 	private final static int		UPDATING_PERIOD	= 100;
 
 	public static void main(String[] args) {
-		GUIFrame.setDefaultLookAndFeelDecorated(true);
+		GuiFrame.setDefaultLookAndFeelDecorated(true);
 		MainFrame frame = new MainFrame(TITLE, SIZE, TO_MAXIMIZE, UPDATING_PERIOD);
 		frame.setVisible(true);
 	}
