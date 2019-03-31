@@ -26,10 +26,6 @@ public abstract class Car implements Cloneable, Paintable {
 
 	private int width;
 
-	// private double x;
-
-	// private double y;
-
 	private Point2D.Double location;
 
 	private double direction;
@@ -55,12 +51,15 @@ public abstract class Car implements Cloneable, Paintable {
 	}
 
 	@Override
-	protected Car clone() {
+	protected Object clone() {
+		Car val = null;
 		try {
-			return (Car) super.clone();
+			val = (Car) super.clone();
+			val.location = (Point2D.Double) location.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.toString());
 		}
+		return val;
 	}
 
 	@Override
@@ -249,6 +248,6 @@ public abstract class Car implements Cloneable, Paintable {
 	}
 
 	public Car toShadow() {
-		return this.clone();
+		return (Car) this.clone();
 	}
 }
