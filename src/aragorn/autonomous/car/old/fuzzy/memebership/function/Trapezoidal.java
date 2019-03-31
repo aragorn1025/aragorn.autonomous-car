@@ -4,10 +4,14 @@ import java.security.InvalidParameterException;
 import aragorn.autonomous.car.old.math.operation.MathOperation;
 
 public class Trapezoidal implements MembershipFunction {
-	private double	a;
-	private double	b;
-	private double	c;
-	private double	d;
+
+	private double a;
+
+	private double b;
+
+	private double c;
+
+	private double d;
 
 	public Trapezoidal(double a, double b, double c, double d) {
 		if (a > b) {

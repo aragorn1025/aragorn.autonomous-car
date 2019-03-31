@@ -4,8 +4,10 @@ import java.security.InvalidParameterException;
 import aragorn.autonomous.car.old.math.operation.MathOperation;
 
 class SCurve implements MembershipFunction {
-	private double	a;
-	private double	b;
+
+	private double a;
+
+	private double b;
 
 	public SCurve(double a, double b) {
 		if (a > b) {

@@ -12,8 +12,8 @@ import aragorn.autonomous.car.old.gui.menu.items.ExportCarTrack6DMenuItem;
 import aragorn.autonomous.car.old.gui.menu.items.ExportLinearMazeMenuItem;
 import aragorn.autonomous.car.old.gui.menu.items.ImportLinearMazeMenuItem;
 import aragorn.autonomous.car.old.gui.menu.items.ResetMenuItem;
-import aragorn.autonomous.car.old.gui.menu.items.StartMenuItem;
-import aragorn.autonomous.car.old.gui.menu.items.StopMenuItem;
+import aragorn.autonomous.car.old.gui.menu.items.PlayMenuItem;
+import aragorn.autonomous.car.old.gui.menu.items.PauseMenuItem;
 import aragorn.autonomous.car.old.objects.CircularCar;
 import aragorn.autonomous.car.old.objects.DefaultMaze;
 import aragorn.autonomous.car.old.objects.RandomGridMaze;
@@ -22,14 +22,18 @@ import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenu;
 import aragorn.gui.GuiPanel;
 
+@SuppressWarnings("serial")
 class MainMenuBar extends JMenuBar {
+
 	private JFileChooser fileChooser = new JFileChooser(Main.DESKTOP);
 
-	private GuiFrame			frame;
-	private AutonomousSystem	autonomousSystem;
-	private GuiPanel[]			panels;
+	private GuiFrame frame;
 
-	MainMenuBar(GuiFrame frame, AutonomousSystem autonomousSystem, GUIPanel... panels) {
+	private AutonomousSystem autonomousSystem;
+
+	private GuiPanel[] panels;
+
+	MainMenuBar(GuiFrame frame, AutonomousSystem autonomousSystem, GuiPanel... panels) {
 		this.frame = frame;
 		this.autonomousSystem = autonomousSystem;
 		this.panels = panels;
@@ -51,8 +55,8 @@ class MainMenuBar extends JMenuBar {
 		getMenu(0).addSeparator();
 		getMenu(0).add(new ExitMenuItem(frame));
 		add(new GuiMenu("Play"));
-		getMenu(1).add(new StartMenuItem(frame));
-		getMenu(1).add(new StopMenuItem(frame));
+		getMenu(1).add(new PlayMenuItem(frame));
+		getMenu(1).add(new PauseMenuItem(frame));
 		getMenu(1).addSeparator();
 		getMenu(1).add(new ResetMenuItem(frame, autonomousSystem, panels));
 		add(new GuiMenu("Maze"));

@@ -2,21 +2,35 @@ package aragorn.autonomous.car.old.gui;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.gui.GuiPanel;
 
+@SuppressWarnings("serial")
 class InfoPanel extends GuiPanel {
+
+	private static Font DEFAULT_FONT = new Font(null, Font.PLAIN, 15);
+
+	private static Font SMALL_FONT = new Font(null, Font.PLAIN, 12);
+
+	private static void initialField(JTextField field) {
+		field.setColumns(5);
+		field.setEditable(false);
+	}
+
+	private static void initialLabel(JLabel label) {
+		label.setFont(SMALL_FONT);
+		label.setHorizontalAlignment(JTextField.TRAILING);
+	}
+
 	private AutonomousSystem autonomousSystem;
 
-	private final String[]	STRINGS	= new String[] { "X", "Y", "Direction", "Wheel", "Front", "Left", "Right" };
-	private JLabel[]		labels	= new JLabel[STRINGS.length];
-	private JTextField[]	fields	= new JTextField[STRINGS.length];
+	private final String[] STRINGS = new String[] { "X", "Y", "Direction", "Wheel", "Front", "Left", "Right" };
 
-	private static Font	DEFAULT_FONT	= new Font(null, Font.PLAIN, 15);
-	private static Font	SMALL_FONT		= new Font(null, Font.PLAIN, 12);
+	private JLabel[] labels = new JLabel[STRINGS.length];
+
+	private JTextField[] fields = new JTextField[STRINGS.length];
 
 	InfoPanel(AutonomousSystem autonomousSystem) {
 		super("Info");
@@ -40,20 +54,9 @@ class InfoPanel extends GuiPanel {
 		}
 	}
 
-	private static void initialLabel(JLabel label) {
-		label.setFont(SMALL_FONT);
-		label.setHorizontalAlignment(JTextField.TRAILING);
-	}
-
-	private static void initialField(JTextField field) {
-		field.setColumns(5);
-		field.setEditable(false);
-	}
-
-	@Override
 	public void reset() {
-		setText(fields[0], autonomousSystem.getCar().getX());
-		setText(fields[1], autonomousSystem.getCar().getY());
+		setText(fields[0], autonomousSystem.getCar().getLocation().getX());
+		setText(fields[1], autonomousSystem.getCar().getLocation().getY());
 		setText(fields[2], autonomousSystem.getCar().getDirectionOutput());
 		setText(fields[3], autonomousSystem.getCar().getWheelAngleOutput());
 		setText(fields[4], autonomousSystem.detectFront());

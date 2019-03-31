@@ -1,6 +1,7 @@
 package aragorn.autonomous.car.old.fuzzy.implication;
 
 interface FuzzyImplication {
+
 	public double mu_a(double x_a);
 
 	public double mu_b(double x_b);

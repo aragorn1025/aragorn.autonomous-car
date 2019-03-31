@@ -3,6 +3,7 @@ package aragorn.autonomous.car.old.fuzzy.memebership.function;
 import java.security.InvalidParameterException;
 
 public class Triangular implements MembershipFunction {
+
 	private Trapezoidal function;
 
 	public Triangular(double a, double b, double c) {

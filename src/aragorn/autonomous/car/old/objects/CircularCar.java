@@ -3,10 +3,12 @@ package aragorn.autonomous.car.old.objects;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import aragorn.autonomous.car.old.math.operation.GeometryParallelogram;
 import aragorn.gui.Coordinate2D;
+import aragorn.util.MathGeometryParallelogram2D;
+import aragorn.util.MathVector2D;
 
 public class CircularCar extends Car {
+
 	public CircularCar() {
 		this(3, 0, 0, 90);
 	}
@@ -16,24 +18,23 @@ public class CircularCar extends Car {
 	}
 
 	@Override
-	public boolean isInside(GeometryParallelogram parallelogram) {
-		for (int i = -1; i <= 1; i += 2) {
-			if (!parallelogram.isInside(new Point2D.Double(getX(), getY() + i * getRadius()))) {
-				return false;
-			}
-			if (!parallelogram.isInside(new Point2D.Double(getX() + i * getRadius(), getY()))) {
-				return false;
-			}
-		}
-		return true;
+	protected void drawCarBody(Graphics g, Coordinate2D c) {
+		Point2D.Double left_top_point = new Point2D.Double(getLocation().getX() - getRadius(), getLocation().getY() + getRadius());
+		Point2D.Double ltpc = c.convertToPanel(left_top_point);
+
+		// the width and the height of the car body
+		MathVector2D v = new MathVector2D(getRadius() * 2, -getRadius() * 2);
+		MathVector2D vc = c.convertToPanel(v);
+
+		g.drawOval((int) ltpc.x, (int) ltpc.y, (int) vc.getX(), (int) vc.getY());
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		int x = (int) Math.floor(getX() - getRadius());
-		int y = (int) Math.floor(getY() - getRadius());
-		int width = (int) (Math.ceil(getX() + getRadius()) - x);
-		int height = (int) (Math.ceil(getY() + getRadius()) - y);
+		int x = (int) Math.floor(getLocation().getX() - getRadius());
+		int y = (int) Math.floor(getLocation().getY() - getRadius());
+		int width = (int) (Math.ceil(getLocation().getX() + getRadius()) - x);
+		int height = (int) (Math.ceil(getLocation().getY() + getRadius()) - y);
 		return new Rectangle(x, y, width, height);
 	}
 
@@ -42,15 +43,15 @@ public class CircularCar extends Car {
 	}
 
 	@Override
-	protected void paintCarBody(Graphics g, Coordinate2D c) {
-		// the left top of the car body
-		int ltx = (int) c.toX(getX() - getRadius());
-		int lty = (int) c.toY(getY() + getRadius());
-
-		// the width and the height of the car body
-		int dx = (int) c.toDX(getRadius() * 2);
-		int dy = (int) c.toDY(-getRadius() * 2);
-
-		g.drawOval(ltx, lty, dx, dy);
+	public boolean isInside(MathGeometryParallelogram2D parallelogram) {
+		for (int i = -1; i <= 1; i += 2) {
+			if (!parallelogram.isSurround(new Point2D.Double(getLocation().getX(), getLocation().getY() + i * getRadius()))) {
+				return false;
+			}
+			if (!parallelogram.isSurround(new Point2D.Double(getLocation().getX() + i * getRadius(), getLocation().getY()))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

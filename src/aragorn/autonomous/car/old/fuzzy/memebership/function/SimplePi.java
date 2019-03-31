@@ -3,8 +3,10 @@ package aragorn.autonomous.car.old.fuzzy.memebership.function;
 import java.security.InvalidParameterException;
 
 class SimplePi implements MembershipFunction {
-	private double	a;
-	private double	b;
+
+	private double a;
+
+	private double b;
 
 	public SimplePi(double a, double b) {
 		this.a = a;

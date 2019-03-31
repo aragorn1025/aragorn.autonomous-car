@@ -7,12 +7,16 @@ import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
 import aragorn.gui.GuiPanel;
 
+@SuppressWarnings("serial")
 public class ResetMenuItem extends GuiMenuItem implements ActionListener {
-	private GuiFrame			frame;
-	private GuiPanel[]			panels;
-	private AutonomousSystem	autonomousSystem;
 
-	public ResetMenuItem(GuiFrame frame, AutonomousSystem autonomousSystem, GUIPanel[] panels) {
+	private GuiFrame frame;
+
+	private GuiPanel[] panels;
+
+	private AutonomousSystem autonomousSystem;
+
+	public ResetMenuItem(GuiFrame frame, AutonomousSystem autonomousSystem, GuiPanel[] panels) {
 		super("Reset");
 		this.frame = frame;
 		this.autonomousSystem = autonomousSystem;
@@ -22,10 +26,10 @@ public class ResetMenuItem extends GuiMenuItem implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		frame.stop();
+		frame.pause();
 		autonomousSystem.reset();
 		for (int i = 0; i < panels.length; i++) {
-			panels[i].reset();
+			panels[i].repaint(); // XXX maybe work fail
 		}
 	}
 }

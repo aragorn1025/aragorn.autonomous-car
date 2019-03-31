@@ -14,14 +14,20 @@ import aragorn.gui.GuiMenuItem;
 
 @SuppressWarnings("serial")
 public class ExportCarTrack6DMenuItem extends GuiMenuItem implements ActionListener {
-	private GuiFrame			frame;
-	private JFileChooser		fileChooser;
-	private AutonomousSystem	autonomousSystem;
 
-	private static final String	FILE_EXPORT_CANCELLED_MESSAGE	= new String("File export for car tracks has been cancelled.");
-	private static final String	FILE_EXPORT_DONE_MESSAGE		= new String("File export for car tracks is done.");
-	private static final String	FILE_OVERWRITE_MESSAGE			= new String("The file will be overwrite.");
-	private static final String	FILE_READ_ONLY_MESSAGE			= new String("The file is read only.");
+	private static final String FILE_EXPORT_CANCELLED_MESSAGE = new String("File export for car tracks has been cancelled.");
+
+	private static final String FILE_EXPORT_DONE_MESSAGE = new String("File export for car tracks is done.");
+
+	private static final String FILE_OVERWRITE_MESSAGE = new String("The file will be overwrite.");
+
+	private static final String FILE_READ_ONLY_MESSAGE = new String("The file is read only.");
+
+	private GuiFrame frame;
+
+	private JFileChooser fileChooser;
+
+	private AutonomousSystem autonomousSystem;
 
 	public ExportCarTrack6DMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
 		super("Export Car Track (6D)", '\0');
@@ -43,8 +49,7 @@ public class ExportCarTrack6DMenuItem extends GuiMenuItem implements ActionListe
 					if (!file.exists()) {
 						file.createNewFile();
 					} else if (file.canWrite()) {
-						if (JOptionPane.showConfirmDialog(frame, FILE_OVERWRITE_MESSAGE, "Warning",
-								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						if (JOptionPane.showConfirmDialog(frame, FILE_OVERWRITE_MESSAGE, "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 							file.delete();
 							file.createNewFile();
 						} else {
@@ -57,7 +62,7 @@ public class ExportCarTrack6DMenuItem extends GuiMenuItem implements ActionListe
 					}
 					PrintWriter output = new PrintWriter(file);
 					for (int i = 0; i < autonomousSystem.getCarTracksNumber(); i++) {
-						output.printf("%.7f %.7f %s %.7f%n", autonomousSystem.getCar().getX(), autonomousSystem.getCar().getY(),
+						output.printf("%.7f %.7f %s %.7f%n", autonomousSystem.getCar().getLocation().getX(), autonomousSystem.getCar().getLocation().getY(),
 								autonomousSystem.getSensor(i), autonomousSystem.getCarTracks(i).getWheelAngleOutput());
 					}
 					output.flush();

@@ -7,19 +7,26 @@ import aragorn.autonomous.car.old.fuzzy.memebership.function.HalfTrapezoidal;
 import aragorn.autonomous.car.old.fuzzy.memebership.function.MembershipFunction;
 import aragorn.autonomous.car.old.fuzzy.memebership.function.Trapezoidal;
 import aragorn.autonomous.car.old.fuzzy.memebership.function.Triangular;
-import aragorn.autonomous.car.old.math.operation.GeometryPolyline;
-import aragorn.autonomous.car.old.math.operation.MathOperation;
 import aragorn.autonomous.car.old.objects.Car;
 import aragorn.autonomous.car.old.objects.Maze;
+import aragorn.util.MathGeometryPolyline2D;
+import aragorn.util.MathUtilities;
 
 public class FuzzyAutonomousSystem implements AutonomousSystem {
-	private Maze				maze;
-	private Car					car;
-	private double				INFINITY;
-	private ArrayList<Car>		tracks	= new ArrayList<>();
-	private ArrayList<Double>	front	= new ArrayList<>();
-	private ArrayList<Double>	left	= new ArrayList<>();
-	private ArrayList<Double>	right	= new ArrayList<>();
+
+	private Maze maze;
+
+	private Car car;
+
+	private double INFINITY;
+
+	private ArrayList<Car> tracks = new ArrayList<>();
+
+	private ArrayList<Double> front = new ArrayList<>();
+
+	private ArrayList<Double> left = new ArrayList<>();
+
+	private ArrayList<Double> right = new ArrayList<>();
 
 	public FuzzyAutonomousSystem(Maze maze, Car car) {
 		setMaze(maze);
@@ -49,6 +56,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoCenterOfGravityDefuzzifier() {
 				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoMeanOfMaximalDefuzzifier() {
 				PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoModifiedMeanOfMaximalDefuzzifier() {
+
 					@Override
 					public double mu(double y) {
 						return FuzzyOperator.standardTnorms(mu_z(vi, vj).f(y), alpha[vi - 1][vj - 1]);
@@ -72,10 +80,10 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		double val = INFINITY;
 		int i, j;
 		double x0, x1, x2, y0, y1, y2, theta, delta, l, t;
-		GeometryPolyline p;
+		MathGeometryPolyline2D p;
 
-		x0 = car.getX();
-		y0 = car.getY();
+		x0 = car.getLocation().getX();
+		y0 = car.getLocation().getY();
 		theta = Math.toRadians((car.getDirection() + angle + 360.0) % 360.0);
 		for (j = 0; j < 3; j++) {
 			switch (j) {
@@ -97,15 +105,15 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 				x2 = p.getPoint(i).getX();
 				y2 = p.getPoint(i).getY();
 
-				delta = MathOperation.determinant(Math.cos(theta), Math.sin(theta), -x2 + x1, -y2 + y1);
+				delta = MathUtilities.determinant_2_2(Math.cos(theta), Math.sin(theta), -x2 + x1, -y2 + y1);
 				if (delta == 0) {
 					continue;
 				}
-				l = MathOperation.determinant(x1 - x0, y1 - y0, -x2 + x1, -y2 + y1) / delta;
+				l = MathUtilities.determinant_2_2(x1 - x0, y1 - y0, -x2 + x1, -y2 + y1) / delta;
 				if (l < 0) {
 					continue;
 				}
-				t = MathOperation.determinant(Math.cos(theta), Math.sin(theta), x1 - x0, y1 - y0) / delta;
+				t = MathUtilities.determinant_2_2(Math.cos(theta), Math.sin(theta), x1 - x0, y1 - y0) / delta;
 				if (t < 0 || t > 1) {
 					continue;
 				}
@@ -149,55 +157,6 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	@Override
 	public boolean isReachEnd() {
 		return car.isInside(maze.getEndArea());
-	}
-
-	@Override
-	public void reset() {
-		front.clear();
-		left.clear();
-		right.clear();
-		tracks.clear();
-		car.reset();
-		addCarTrack();
-	}
-
-	/**
-	 * Set the car reference.
-	 * 
-	 * @param car
-	 *            the reference of the car
-	 * @throws NullPointerException
-	 *             if car is null
-	 * @throws Error
-	 *             if the super class of the car is not {@code Car}
-	 */
-	@Override
-	public void setCar(Car car) {
-		if (car == null) {
-			throw new NullPointerException();
-		} else if (car.getClass().getSuperclass() != Car.class) {
-			throw new Error("Error class for setCar(Car).");
-		} else {
-			this.car = car;
-		}
-	}
-
-	/**
-	 * Set the maze reference.
-	 * 
-	 * @param maze
-	 *            the reference of the maze
-	 * @throws NullPointerException
-	 *             if maze is null
-	 */
-	@Override
-	public void setMaze(Maze maze) {
-		if (maze == null) {
-			throw new NullPointerException();
-		} else {
-			this.maze = maze;
-			INFINITY = 4.0 * maze.getBoundsHypotenuse();
-		}
 	}
 
 	private MembershipFunction mu_a(int i) {
@@ -260,6 +219,55 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 				}
 			default:
 				throw new NullPointerException(String.format("i = %d, j = %d", i, j));
+		}
+	}
+
+	@Override
+	public void reset() {
+		front.clear();
+		left.clear();
+		right.clear();
+		tracks.clear();
+		car.reset();
+		addCarTrack();
+	}
+
+	/**
+	 * Set the car reference.
+	 * 
+	 * @param car
+	 *     the reference of the car
+	 * @throws NullPointerException
+	 *     if car is null
+	 * @throws Error
+	 *     if the super class of the car is not {@code Car}
+	 */
+	@Override
+	public void setCar(Car car) {
+		if (car == null) {
+			throw new NullPointerException();
+		} else if (car.getClass().getSuperclass() != Car.class) {
+			throw new Error("Error class for setCar(Car).");
+		} else {
+			this.car = car;
+		}
+	}
+
+	/**
+	 * Set the maze reference.
+	 * 
+	 * @param maze
+	 *     the reference of the maze
+	 * @throws NullPointerException
+	 *     if maze is null
+	 */
+	@Override
+	public void setMaze(Maze maze) {
+		if (maze == null) {
+			throw new NullPointerException();
+		} else {
+			this.maze = maze;
+			INFINITY = 4.0 * maze.getBoundsHypotenuse();
 		}
 	}
 }

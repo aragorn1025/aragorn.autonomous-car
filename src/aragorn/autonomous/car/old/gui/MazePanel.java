@@ -8,7 +8,9 @@ import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.gui.Coordinate2D;
 import aragorn.gui.GuiPanel;
 
+@SuppressWarnings("serial")
 class MazePanel extends GuiPanel {
+
 	private AutonomousSystem autonomousSystem;
 
 	private int printStep;
@@ -27,13 +29,12 @@ class MazePanel extends GuiPanel {
 		super.paintComponent(g);
 		Coordinate2D c = autonomousSystem.getMaze().getFitCoordinate(getWidth(), getHeight(), 30);
 		for (int i = 0; i < autonomousSystem.getCarTracksNumber(); i += printStep) {
-			autonomousSystem.getCarTracks(i).paintCarShadow(g, c);
+			autonomousSystem.getCarTracks(i).drawCarShadow(g, c);
 		}
-		autonomousSystem.getCar().paint(g, c);
-		autonomousSystem.getMaze().paint(g, c);
+		autonomousSystem.getCar().draw(g, c);
+		autonomousSystem.getMaze().draw(g, c);
 	}
 
-	@Override
 	public void reset() {
 		autonomousSystem.reset();
 		repaint();

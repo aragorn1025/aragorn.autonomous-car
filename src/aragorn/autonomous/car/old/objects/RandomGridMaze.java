@@ -5,14 +5,20 @@ import java.util.Arrays;
 import aragorn.autonomous.car.old.math.operation.MathOperation;
 
 public class RandomGridMaze extends LinearMaze {
-	public static final int	GO_UP		= 1;
-	public static final int	GO_RIGHT	= 2;
 
-	private int		type;
-	private int		boundsWidth;
-	private int		boundsHeight;
-	private double	pathWidth;
-	private int		pointPairs;
+	public static final int GO_UP = 1;
+
+	public static final int GO_RIGHT = 2;
+
+	private int type;
+
+	private int boundsWidth;
+
+	private int boundsHeight;
+
+	private double pathWidth;
+
+	private int pointPairs;
 
 	public RandomGridMaze() {
 		this(GO_UP);
@@ -140,11 +146,9 @@ public class RandomGridMaze extends LinearMaze {
 		if (pointPairs < 0) {
 			throw new InvalidParameterException("The point pairs should be positive integer.");
 		} else if (type == RandomGridMaze.GO_UP && pointPairs > (boundsHeight / pathWidth - 1) / 2) {
-			throw new InvalidParameterException(
-					String.format("The point pairs should be smaller than %.2f.", (-1.0 + boundsHeight / pathWidth) / 2.0));
+			throw new InvalidParameterException(String.format("The point pairs should be smaller than %.2f.", (-1.0 + boundsHeight / pathWidth) / 2.0));
 		} else if (type == RandomGridMaze.GO_RIGHT && pointPairs > (boundsWidth / pathWidth - 1) / 2) {
-			throw new InvalidParameterException(
-					String.format("The point pairs should be smaller than %.2f.", (-1.0 + boundsWidth / pathWidth) / 2.0));
+			throw new InvalidParameterException(String.format("The point pairs should be smaller than %.2f.", (-1.0 + boundsWidth / pathWidth) / 2.0));
 		}
 		this.pointPairs = pointPairs;
 	}

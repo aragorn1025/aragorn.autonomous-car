@@ -7,6 +7,7 @@ import aragorn.gui.GuiMenuItem;
 
 @SuppressWarnings("serial")
 public class ExitMenuItem extends GuiMenuItem implements ActionListener {
+
 	private GuiFrame frame;
 
 	public ExitMenuItem(GuiFrame frame) {

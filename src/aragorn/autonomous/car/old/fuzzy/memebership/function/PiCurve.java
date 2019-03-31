@@ -4,9 +4,12 @@ import java.security.InvalidParameterException;
 import aragorn.autonomous.car.old.math.operation.MathOperation;
 
 class PiCurve implements MembershipFunction {
-	private double	mid;
-	private SCurve	sf;
-	private ZCurve	zf;
+
+	private double mid;
+
+	private SCurve sf;
+
+	private ZCurve zf;
 
 	public PiCurve(double a, double b) {
 		mid = b;

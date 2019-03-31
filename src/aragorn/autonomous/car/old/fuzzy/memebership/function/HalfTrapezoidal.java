@@ -4,25 +4,16 @@ import java.security.InvalidParameterException;
 import aragorn.autonomous.car.old.math.operation.MathOperation;
 
 public class HalfTrapezoidal implements MembershipFunction {
-	private String	as;
-	private String	cs;
-	private double	a;
-	private double	b;
-	private double	c;
 
-	public HalfTrapezoidal(String a, double b, double c) {
-		if (!a.toLowerCase().equals("-infinity") && !a.toLowerCase().equals("-inf")) {
-			throw new InvalidParameterException("The first parameter should be \"-infinity\", \"-inf\" or real number.");
-		}
-		if (b > c) {
-			throw new InvalidParameterException("The second parameter should be smaller than the third parameter.");
-		}
+	private String as;
 
-		this.as = a;
-		this.b = b;
-		this.c = c;
-		this.cs = null;
-	}
+	private String cs;
+
+	private double a;
+
+	private double b;
+
+	private double c;
 
 	public HalfTrapezoidal(double a, double b, String c) {
 		if (!c.toLowerCase().equals("+infinity") && !c.toLowerCase().equals("+inf")) {
@@ -36,6 +27,20 @@ public class HalfTrapezoidal implements MembershipFunction {
 		this.b = b;
 		this.cs = c;
 		this.as = null;
+	}
+
+	public HalfTrapezoidal(String a, double b, double c) {
+		if (!a.toLowerCase().equals("-infinity") && !a.toLowerCase().equals("-inf")) {
+			throw new InvalidParameterException("The first parameter should be \"-infinity\", \"-inf\" or real number.");
+		}
+		if (b > c) {
+			throw new InvalidParameterException("The second parameter should be smaller than the third parameter.");
+		}
+
+		this.as = a;
+		this.b = b;
+		this.c = c;
+		this.cs = null;
 	}
 
 	@Override

@@ -3,8 +3,10 @@ package aragorn.autonomous.car.old.fuzzy.memebership.function;
 import java.security.InvalidParameterException;
 
 class GaussianFunction implements MembershipFunction {
-	private double	m;
-	private double	sigma;
+
+	private double m;
+
+	private double sigma;
 
 	public GaussianFunction(double m, double sigma) {
 		this.m = m;

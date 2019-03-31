@@ -9,20 +9,26 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.old.gui.Main;
-import aragorn.autonomous.car.old.math.operation.GeometryPolyline;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
+import aragorn.util.MathGeometryPolyline2D;
 
 @SuppressWarnings("serial")
 public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListener {
-	private GuiFrame			frame;
-	private JFileChooser		fileChooser;
-	private AutonomousSystem	autonomousSystem;
 
-	private static final String	FILE_EXPORT_CANCELLED_MESSAGE	= new String("File export for maze has been cancelled.");
-	private static final String	FILE_EXPORT_DONE_MESSAGE		= new String("File export for maze is done.");
-	private static final String	FILE_OVERWRITE_MESSAGE			= new String("The file will be overwrite.");
-	private static final String	FILE_READ_ONLY_MESSAGE			= new String("The file is read only.");
+	private static final String FILE_EXPORT_CANCELLED_MESSAGE = new String("File export for maze has been cancelled.");
+
+	private static final String FILE_EXPORT_DONE_MESSAGE = new String("File export for maze is done.");
+
+	private static final String FILE_OVERWRITE_MESSAGE = new String("The file will be overwrite.");
+
+	private static final String FILE_READ_ONLY_MESSAGE = new String("The file is read only.");
+
+	private GuiFrame frame;
+
+	private JFileChooser fileChooser;
+
+	private AutonomousSystem autonomousSystem;
 
 	public ExportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
 		super("Export Linear Maze", '\0');
@@ -44,8 +50,7 @@ public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 					if (!file.exists()) {
 						file.createNewFile();
 					} else if (file.canWrite()) {
-						if (JOptionPane.showConfirmDialog(frame, FILE_OVERWRITE_MESSAGE, "Warning",
-								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						if (JOptionPane.showConfirmDialog(frame, FILE_OVERWRITE_MESSAGE, "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 							file.delete();
 							file.createNewFile();
 						} else {
@@ -57,7 +62,7 @@ public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 						return;
 					}
 					PrintWriter output = new PrintWriter(file);
-					GeometryPolyline wall;
+					MathGeometryPolyline2D wall;
 					for (int j = 0; j < 3; j++) {
 						switch (j) {
 							case 0:

@@ -6,6 +6,7 @@ import aragorn.autonomous.car.old.objects.Maze;
 import aragorn.autonomous.car.old.objects.RectangularCar;
 
 public interface AutonomousSystem {
+
 	public void addCarTrack();
 
 	public boolean control();

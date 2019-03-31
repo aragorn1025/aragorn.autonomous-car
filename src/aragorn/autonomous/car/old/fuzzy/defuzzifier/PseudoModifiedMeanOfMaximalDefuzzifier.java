@@ -1,6 +1,7 @@
 package aragorn.autonomous.car.old.fuzzy.defuzzifier;
 
 public abstract class PseudoModifiedMeanOfMaximalDefuzzifier implements PseudoDefuzzifierForAutonomousCar {
+
 	@Override
 	public double deffuzzifier() {
 		double yi, mu, height = 0, max_mu_y_min = getYMin(), max_mu_y_max = getYMin();
