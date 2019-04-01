@@ -9,7 +9,7 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
-import aragorn.autonomous.car.old.gui.Main;
+import aragorn.autonomous.car.old.gui.MainFrame;
 import aragorn.autonomous.car.old.objects.LinearMaze;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
@@ -72,7 +72,7 @@ public class ImportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		fileChooser.setDialogTitle("Import Linear Maze");
-		fileChooser.setCurrentDirectory(Main.DESKTOP);
+		fileChooser.setCurrentDirectory(MainFrame.DESKTOP);
 		switch (fileChooser.showSaveDialog(frame)) {
 			case JFileChooser.APPROVE_OPTION:
 				try {

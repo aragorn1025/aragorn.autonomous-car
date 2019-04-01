@@ -3,8 +3,8 @@ package aragorn.autonomous.car.old.objects;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import aragorn.gui.Coordinate2D;
-import aragorn.gui.Paintable;
+import aragorn.gui.GuiCoordinate2D;
+import aragorn.gui.GuiPaintable;
 import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathVector2D;
 
@@ -19,7 +19,7 @@ public class RectangularCar extends Car {
 	}
 
 	@Override
-	protected void drawCarBody(Graphics g, Coordinate2D c) {
+	protected void drawCarBody(Graphics g, GuiCoordinate2D c) {
 		// the offset of the center and the front of the car body
 		MathVector2D fv = new MathVector2D(getLength() * Math.cos(Math.toRadians(getDirection())) / 2, getLength() * Math.sin(Math.toRadians(getDirection())) / 2);
 		MathVector2D bv = fv.getNegative();
@@ -28,10 +28,10 @@ public class RectangularCar extends Car {
 		MathVector2D rv = new MathVector2D(getWidth() * Math.sin(Math.toRadians(getDirection())) / 2, -getWidth() * Math.cos(Math.toRadians(getDirection())) / 2);
 		MathVector2D lv = rv.getNegative();
 
-		Paintable.drawLine(g, c, MathVector2D.add(getLocation(), fv, rv), MathVector2D.add(getLocation(), fv, lv));
-		Paintable.drawLine(g, c, MathVector2D.add(getLocation(), fv, lv), MathVector2D.add(getLocation(), bv, lv));
-		Paintable.drawLine(g, c, MathVector2D.add(getLocation(), bv, rv), MathVector2D.add(getLocation(), fv, rv));
-		Paintable.drawLine(g, c, MathVector2D.add(getLocation(), bv, lv), MathVector2D.add(getLocation(), bv, rv));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(getLocation(), fv, rv), MathVector2D.add(getLocation(), fv, lv));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(getLocation(), fv, lv), MathVector2D.add(getLocation(), bv, lv));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(getLocation(), bv, rv), MathVector2D.add(getLocation(), fv, rv));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(getLocation(), bv, lv), MathVector2D.add(getLocation(), bv, rv));
 	}
 
 	@Override

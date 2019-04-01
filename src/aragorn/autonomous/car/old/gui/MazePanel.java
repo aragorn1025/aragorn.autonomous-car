@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.security.InvalidParameterException;
 import javax.swing.border.LineBorder;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
-import aragorn.gui.Coordinate2D;
+import aragorn.gui.GuiCoordinate2D;
 import aragorn.gui.GuiPanel;
 
 @SuppressWarnings("serial")
@@ -27,7 +27,7 @@ class MazePanel extends GuiPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Coordinate2D c = autonomousSystem.getMaze().getFitCoordinate(getWidth(), getHeight(), 30);
+		GuiCoordinate2D c = autonomousSystem.getMaze().getFitCoordinate(getWidth(), getHeight(), 30);
 		for (int i = 0; i < autonomousSystem.getCarTracksNumber(); i += printStep) {
 			autonomousSystem.getCarTracks(i).drawCarShadow(g, c);
 		}

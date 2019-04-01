@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.security.InvalidParameterException;
-import aragorn.gui.Coordinate2D;
-import aragorn.gui.Paintable;
+import aragorn.gui.GuiCoordinate2D;
+import aragorn.gui.GuiPaintable;
 import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathVector2D;
 
-public abstract class Car implements Cloneable, Paintable {
+public abstract class Car implements Cloneable, GuiPaintable {
 
 	public static final double MIN_WHEEL_ANGLE = -40;
 
@@ -63,7 +63,7 @@ public abstract class Car implements Cloneable, Paintable {
 	}
 
 	@Override
-	public void draw(Graphics g, Coordinate2D c) {
+	public void draw(Graphics g, GuiCoordinate2D c) {
 		g.setColor(Color.GRAY);
 		drawCarBodyCrossLine(g, c);
 		drawWheelDirectionRange(g, c);
@@ -73,9 +73,9 @@ public abstract class Car implements Cloneable, Paintable {
 		drawWheelDirection(g, c);
 	}
 
-	protected abstract void drawCarBody(Graphics g, Coordinate2D c);
+	protected abstract void drawCarBody(Graphics g, GuiCoordinate2D c);
 
-	private void drawCarBodyCrossLine(Graphics g, Coordinate2D c) {
+	private void drawCarBodyCrossLine(Graphics g, GuiCoordinate2D c) {
 		// the offset of the center and the bar end of the front of the car body
 		MathVector2D fv = new MathVector2D((getLength() + bar * 2) * Math.cos(Math.toRadians(getDirection())) / 2,
 				(getLength() + bar * 2) * Math.sin(Math.toRadians(getDirection())) / 2);
@@ -84,29 +84,29 @@ public abstract class Car implements Cloneable, Paintable {
 		MathVector2D rv = new MathVector2D((getWidth() + bar * 2) * Math.sin(Math.toRadians(getDirection())) / 2,
 				-(getWidth() + bar * 2) * Math.cos(Math.toRadians(getDirection())) / 2);
 
-		Paintable.drawLine(g, c, MathVector2D.add(location, fv), MathVector2D.add(location, fv.getNegative()));
-		Paintable.drawLine(g, c, MathVector2D.add(location, rv), MathVector2D.add(location, rv.getNegative()));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(location, fv), MathVector2D.add(location, fv.getNegative()));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(location, rv), MathVector2D.add(location, rv.getNegative()));
 	}
 
-	public void drawCarShadow(Graphics g, Coordinate2D c) {
+	public void drawCarShadow(Graphics g, GuiCoordinate2D c) {
 		g.setColor(Color.LIGHT_GRAY);
 		drawCarBody(g, c);
 		drawDirection(g, c);
 	}
 
-	private void drawDirection(Graphics g, Coordinate2D c) {
+	private void drawDirection(Graphics g, GuiCoordinate2D c) {
 		MathVector2D v = new MathVector2D((getWheelRange() + bar) * Math.cos(Math.toRadians(getDirection())),
 				(getWheelRange() + bar) * Math.sin(Math.toRadians(getDirection())));
-		Paintable.drawLine(g, c, location, v);
+		GuiPaintable.drawLine(g, c, location, v);
 	}
 
-	private void drawWheelDirection(Graphics g, Coordinate2D c) {
+	private void drawWheelDirection(Graphics g, GuiCoordinate2D c) {
 		MathVector2D v = new MathVector2D((getWheelRange() + bar) * Math.cos(Math.toRadians(getDirection() + getWheelAngle())),
 				(getWheelRange() + bar) * Math.sin(Math.toRadians(getDirection() + getWheelAngle())));
-		Paintable.drawLine(g, c, location, v);
+		GuiPaintable.drawLine(g, c, location, v);
 	}
 
-	private void drawWheelDirectionRange(Graphics g, Coordinate2D c) {
+	private void drawWheelDirectionRange(Graphics g, GuiCoordinate2D c) {
 		// the offset of the center and the bar end of the right side bar
 		MathVector2D rv = new MathVector2D((getWheelRange() + bar) * Math.cos(Math.toRadians(getDirection() + Car.MIN_WHEEL_ANGLE)),
 				(getWheelRange() + bar) * Math.sin(Math.toRadians(getDirection() + Car.MIN_WHEEL_ANGLE)));
@@ -126,8 +126,8 @@ public abstract class Car implements Cloneable, Paintable {
 		// the start angle of the arc
 		int startAngle = (int) (getDirection() + Car.MIN_WHEEL_ANGLE);
 
-		Paintable.drawLine(g, c, location, rv);
-		Paintable.drawLine(g, c, location, lv);
+		GuiPaintable.drawLine(g, c, location, rv);
+		GuiPaintable.drawLine(g, c, location, lv);
 		g.drawArc((int) ltpc.getX(), (int) ltpc.getY(), (int) avc.getX(), (int) avc.getY(), startAngle, ARC_ANGLE);
 	}
 

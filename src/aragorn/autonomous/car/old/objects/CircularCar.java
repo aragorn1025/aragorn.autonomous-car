@@ -3,7 +3,7 @@ package aragorn.autonomous.car.old.objects;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import aragorn.gui.Coordinate2D;
+import aragorn.gui.GuiCoordinate2D;
 import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathVector2D;
 
@@ -18,7 +18,7 @@ public class CircularCar extends Car {
 	}
 
 	@Override
-	protected void drawCarBody(Graphics g, Coordinate2D c) {
+	protected void drawCarBody(Graphics g, GuiCoordinate2D c) {
 		Point2D.Double left_top_point = new Point2D.Double(getLocation().getX() - getRadius(), getLocation().getY() + getRadius());
 		Point2D.Double ltpc = c.convertToPanel(left_top_point);
 

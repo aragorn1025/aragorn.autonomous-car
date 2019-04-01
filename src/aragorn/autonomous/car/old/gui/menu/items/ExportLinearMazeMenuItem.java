@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
-import aragorn.autonomous.car.old.gui.Main;
+import aragorn.autonomous.car.old.gui.MainFrame;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
 import aragorn.util.MathGeometryPolyline2D;
@@ -41,7 +41,7 @@ public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		fileChooser.setDialogTitle("Export Linear Maze");
-		fileChooser.setCurrentDirectory(Main.DESKTOP);
+		fileChooser.setCurrentDirectory(MainFrame.DESKTOP);
 		fileChooser.setSelectedFile(new File("Maze.txt"));
 		switch (fileChooser.showSaveDialog(frame)) {
 			case JFileChooser.APPROVE_OPTION:

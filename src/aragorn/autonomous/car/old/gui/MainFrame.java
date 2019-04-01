@@ -2,6 +2,7 @@ package aragorn.autonomous.car.old.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.io.File;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.old.fuzzy.system.FuzzyAutonomousSystem;
@@ -11,13 +12,9 @@ import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiPanel;
 
 @SuppressWarnings("serial")
-class MainFrame extends GuiFrame {
+public class MainFrame extends GuiFrame {
 
-	private final static Dimension DIMENSION = new Dimension(800, 450);
-
-	private final static boolean IS_MAXIMIZED_WHILE_LAUNCH = false;
-
-	private final static int UPDATING_PERIOD = 100;
+	public static final File DESKTOP = new File(System.getProperty("user.home") + "/Desktop");
 
 	private AutonomousSystem autonomousSystem;
 
@@ -25,15 +22,15 @@ class MainFrame extends GuiFrame {
 
 	private InfoPanel infoPanel;
 
-	MainFrame(String title) {
-		super(DIMENSION, IS_MAXIMIZED_WHILE_LAUNCH, UPDATING_PERIOD);
+	public MainFrame(String title) {
+		super(new Dimension(800, 450), true, 100);
 
 		autonomousSystem = new FuzzyAutonomousSystem(new DefaultMaze(), new CircularCar());
 		mazePanel = new MazePanel(autonomousSystem);
 		infoPanel = new InfoPanel(autonomousSystem);
 
-		setTitle(title);
-		setJMenuBar(new MainMenuBar(this, autonomousSystem, mazePanel, infoPanel));
+		setTitle(title + " - by Fuzzy System");
+		setJMenuBar(new MainMenuBar(this, autonomousSystem));
 
 		GuiPanel content_pane = new GuiPanel();
 		content_pane.addComponent(mazePanel, 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
@@ -50,5 +47,12 @@ class MainFrame extends GuiFrame {
 			pause();
 			JOptionPane.showMessageDialog(this, "The car gets ends.", "Timer stop", JOptionPane.INFORMATION_MESSAGE);
 		}
+	}
+
+	@Override
+	public void repaint() {
+		super.repaint();
+		mazePanel.repaint();
+		infoPanel.repaint();
 	}
 }

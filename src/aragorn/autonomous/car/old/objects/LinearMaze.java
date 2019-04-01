@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import aragorn.gui.Coordinate2D;
+import aragorn.gui.GuiCoordinate2D;
 import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathGeometryPolyline2D;
 import aragorn.util.MathUtilities;
@@ -29,7 +29,7 @@ public class LinearMaze implements Maze {
 	}
 
 	@Override
-	public void draw(Graphics g, Coordinate2D c) {
+	public void draw(Graphics g, GuiCoordinate2D c) {
 		g.setColor(Color.BLACK);
 		leftWall.draw(g, c);
 		rightWall.draw(g, c);
@@ -65,11 +65,11 @@ public class LinearMaze implements Maze {
 	}
 
 	@Override
-	public Coordinate2D getFitCoordinate(int panelWidth, int panelHeight, int margin) {
+	public GuiCoordinate2D getFitCoordinate(int panelWidth, int panelHeight, int margin) {
 		double unit = Math.min((panelWidth - 2.0 * margin) / getBounds().getWidth(), (panelHeight - 2.0 * margin) / getBounds().getHeight());
 		double ox = panelWidth / 2.0 - unit * (getBounds().getWidth() / 2.0 + getBounds().getX());
 		double oy = panelHeight / 2.0 + unit * (getBounds().getHeight() / 2.0 + getBounds().getY());
-		return new Coordinate2D(new Point2D.Double(ox, oy), unit, unit);
+		return new GuiCoordinate2D(new Point2D.Double(ox, oy), unit, unit);
 	}
 
 	@Override

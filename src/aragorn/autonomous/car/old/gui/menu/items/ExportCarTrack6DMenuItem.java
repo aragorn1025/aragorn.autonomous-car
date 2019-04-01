@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.old.fuzzy.system.AutonomousSystem;
-import aragorn.autonomous.car.old.gui.Main;
+import aragorn.autonomous.car.old.gui.MainFrame;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
 
@@ -40,7 +40,7 @@ public class ExportCarTrack6DMenuItem extends GuiMenuItem implements ActionListe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		fileChooser.setDialogTitle("Export Car Track");
-		fileChooser.setCurrentDirectory(Main.DESKTOP);
+		fileChooser.setCurrentDirectory(MainFrame.DESKTOP);
 		fileChooser.setSelectedFile(new File("Car Tracks 6D.txt"));
 		switch (fileChooser.showSaveDialog(frame)) {
 			case JFileChooser.APPROVE_OPTION:
