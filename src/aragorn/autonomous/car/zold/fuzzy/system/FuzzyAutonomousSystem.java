@@ -3,8 +3,6 @@ package aragorn.autonomous.car.zold.fuzzy.system;
 import java.util.ArrayList;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
-import aragorn.autonomous.car.object.CircularCar;
-import aragorn.autonomous.car.object.RectangularCar;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoDefuzzifierForAutonomousCar;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.HalfTrapezoidal;
@@ -15,7 +13,7 @@ import aragorn.autonomous.car.zold.objects.Maze;
 import aragorn.util.MathGeometryPolyline2D;
 import aragorn.util.MathUtilities;
 
-public class FuzzyAutonomousSystem implements AutonomousSystemOld {
+public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	private Maze maze;
 
@@ -38,7 +36,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystemOld {
 
 	@Override
 	public void addCarTrack() {
-		tracks.add((CarStatus) getCar().toShadow());
+		tracks.add((CarStatus) getCar().getCloneStatus());
 		front.add(detectFront());
 		left.add(detectLeft());
 		right.add(detectRight());
@@ -272,30 +270,5 @@ public class FuzzyAutonomousSystem implements AutonomousSystemOld {
 			this.maze = maze;
 			INFINITY = 4.0 * maze.getBoundsHypotenuse();
 		}
-	}
-
-	@Override
-	public double detectFront() {
-		return detect(0) - getCar().getLength() / 2;
-	}
-
-	@Override
-	public double detectLeft() {
-		if (getCar().getClass() == CircularCar.class) {
-			return detect(45) - getCar().getLength() / 2;
-		} else if (getCar().getClass() == RectangularCar.class) {
-			return detect(45) - Math.min(getCar().getLength(), getCar().getWidth()) / Math.sqrt(2);
-		}
-		return detect(45);
-	}
-
-	@Override
-	public double detectRight() {
-		if (getCar().getClass() == CircularCar.class) {
-			return detect(-45) - getCar().getLength() / 2;
-		} else if (getCar().getClass() == RectangularCar.class) {
-			return detect(-45) - Math.min(getCar().getLength(), getCar().getWidth()) / Math.sqrt(2);
-		}
-		return detect(-45);
 	}
 }

@@ -1,11 +1,10 @@
 package aragorn.autonomous.car.object;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import aragorn.gui.GuiCoordinate2D;
 import aragorn.gui.GuiPaintable;
-import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathVector2D;
 
 public class RectangularCar extends Car {
@@ -14,63 +13,52 @@ public class RectangularCar extends Car {
 		this(6, 3, new CarStatus(new Point2D.Double(0, 0), 90, 0));
 	}
 
-	private RectangularCar(int length, int width, CarStatus status) {
+	private RectangularCar(double length, double width, CarStatus status) {
 		super(length, width, status);
 	}
 
 	@Override
 	protected void drawCarBody(Graphics g, GuiCoordinate2D c) {
-		MathVector2D back_vector = new MathVector2D(-getLength() * Math.cos(getStatus().getDirection()) / 2, -getLength() * Math.sin(getStatus().getDirection()) / 2);
-		MathVector2D front_vector = back_vector.getNegative();
-		MathVector2D left_vector = new MathVector2D(-getWidth() * Math.sin(getStatus().getDirection()) / 2, getWidth() * Math.cos(getStatus().getDirection()) / 2);
-		MathVector2D right_vector = left_vector.getNegative();
+		MathVector2D front_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection()), getLength() / 2.0);
+		MathVector2D backk_vector = front_vector.getNegative();
+		MathVector2D leftt_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection() + Math.PI / 2.0), getWidth() / 2.0);
+		MathVector2D right_vector = leftt_vector.getNegative();
 
-		Point2D.Double left_back_point = MathVector2D.add(getStatus().getLocation(), back_vector, left_vector);
-		Point2D.Double left_front_point = MathVector2D.add(getStatus().getLocation(), front_vector, left_vector);
-		Point2D.Double right_back_point = MathVector2D.add(getStatus().getLocation(), back_vector, right_vector);
+		Point2D.Double leftt_backk_point = MathVector2D.add(getStatus().getLocation(), backk_vector, leftt_vector);
+		Point2D.Double leftt_front_point = MathVector2D.add(getStatus().getLocation(), front_vector, leftt_vector);
+		Point2D.Double right_backk_point = MathVector2D.add(getStatus().getLocation(), backk_vector, right_vector);
 		Point2D.Double right_front_point = MathVector2D.add(getStatus().getLocation(), front_vector, right_vector);
 
-		GuiPaintable.drawLine(g, c, left_back_point, left_front_point);
-		GuiPaintable.drawLine(g, c, left_front_point, right_front_point);
-		GuiPaintable.drawLine(g, c, right_front_point, right_back_point);
-		GuiPaintable.drawLine(g, c, right_back_point, left_back_point);
+		GuiPaintable.drawLine(g, c, leftt_backk_point, leftt_front_point);
+		GuiPaintable.drawLine(g, c, leftt_front_point, right_front_point);
+		GuiPaintable.drawLine(g, c, right_front_point, right_backk_point);
+		GuiPaintable.drawLine(g, c, right_backk_point, leftt_backk_point);
 	}
 
 	@Override
-	public Rectangle getBounds() {
-		// the offset of the center and the front of the car body
-		double fdx = Math.abs(getLength() * Math.cos(getStatus().getDirection()) / 2);
-		double fdy = Math.abs(getLength() * Math.sin(getStatus().getDirection()) / 2);
+	public Rectangle2D.Double getBounds() {
+		MathVector2D front_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection()), getLength() / 2.0);
+		MathVector2D right_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection() - Math.PI / 2.0), getWidth() / 2.0);
 
-		// the offset of the center and the right of the car body
-		double rdx = Math.abs(getWidth() * Math.sin(getStatus().getDirection()) / 2);
-		double rdy = Math.abs(-getWidth() * Math.cos(getStatus().getDirection()) / 2);
-
-		int x = (int) Math.floor(getStatus().getLocation().getX() - fdx - rdx);
-		int y = (int) Math.floor(getStatus().getLocation().getY() - fdy - rdy);
-		int width = (int) (Math.ceil(getStatus().getLocation().getX() + fdx + rdx) - x);
-		int height = (int) (Math.ceil(getStatus().getLocation().getY() + fdy + rdy) - y);
-		return new Rectangle(x, y, width, height);
+		double x = getStatus().getLocation().getX() - Math.abs(front_vector.getX()) - Math.abs(right_vector.getX());
+		double y = getStatus().getLocation().getY() - Math.abs(front_vector.getY()) - Math.abs(right_vector.getY());
+		double width = getStatus().getLocation().getX() + Math.abs(front_vector.getX()) + Math.abs(right_vector.getX()) - x;
+		double height = getStatus().getLocation().getY() + Math.abs(front_vector.getY()) + Math.abs(right_vector.getY()) - y;
+		return new Rectangle2D.Double(x, y, width, height);
 	}
 
 	@Override
-	public boolean isInside(MathGeometryParallelogram2D parallelogram) {
-		// the offset of the center and the front of the car body
-		double fdx = getLength() * Math.cos(getStatus().getDirection()) / 2;
-		double fdy = getLength() * Math.sin(getStatus().getDirection()) / 2;
+	public double getFrontSensorOffset() {
+		return getLength() / 2;
+	}
 
-		// the offset of the center and the right of the car body
-		double rdx = getWidth() * Math.sin(getStatus().getDirection()) / 2;
-		double rdy = -getWidth() * Math.cos(getStatus().getDirection()) / 2;
-		for (int i = -1; i <= 1; i += 2) {
-			for (int j = -1; j <= 1; j += 2) {
-				if (!parallelogram
-						.isSurround(new Point2D.Double(getStatus().getLocation().getX() + i * fdx + j * rdx, getStatus().getLocation().getY() + i * fdy + j * rdy))) {
-					return false;
-				}
+	@Override
+	public double getLeftSensorOffset() {
+		return Math.min(getLength(), getWidth()) / Math.sqrt(2);
+	}
 
-			}
-		}
-		return true;
+	@Override
+	public double getRightSensorOffset() {
+		return Math.min(getLength(), getWidth()) / Math.sqrt(2);
 	}
 }

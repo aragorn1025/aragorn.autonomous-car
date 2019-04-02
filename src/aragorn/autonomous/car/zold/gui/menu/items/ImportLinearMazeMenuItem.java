@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystemOld;
+import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.gui.MainFrame;
 import aragorn.autonomous.car.zold.objects.LinearMaze;
 import aragorn.gui.GuiFrame;
@@ -59,9 +59,9 @@ public class ImportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 
 	private JFileChooser fileChooser;
 
-	private AutonomousSystemOld autonomousSystem;
+	private AutonomousSystem autonomousSystem;
 
-	public ImportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystemOld autonomousSystem) {
+	public ImportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
 		super("Import Linear Maze", '\0');
 		this.frame = frame;
 		this.fileChooser = fileChooser;

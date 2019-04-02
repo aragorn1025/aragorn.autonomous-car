@@ -4,7 +4,7 @@ import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.zold.objects.Maze;
 
-public interface AutonomousSystemOld {
+public interface AutonomousSystem {
 
 	public void addCarTrack();
 
@@ -12,11 +12,17 @@ public interface AutonomousSystemOld {
 
 	public double detect(double angle);
 
-	public double detectFront();
+	public default double detectFront() {
+		return detect(0) - getCar().getFrontSensorOffset();
+	}
 
-	public double detectLeft();
+	public default double detectLeft() {
+		return detect(45) - getCar().getLeftSensorOffset();
+	}
 
-	public double detectRight();
+	public default double detectRight() {
+		return detect(-45) - getCar().getRightSensorOffset();
+	}
 
 	public Car getCar();
 

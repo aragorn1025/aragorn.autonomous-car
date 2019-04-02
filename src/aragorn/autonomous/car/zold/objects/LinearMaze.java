@@ -2,8 +2,8 @@ package aragorn.autonomous.car.zold.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import aragorn.gui.GuiCoordinate2D;
 import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathGeometryPolyline2D;
@@ -38,14 +38,14 @@ public class LinearMaze implements Maze {
 	}
 
 	@Override
-	public Rectangle getBounds() {
-		int xmin = (int) MathUtilities.min(leftWall.getBounds().getX(), rightWall.getBounds().getX(), endWall.getBounds().getX());
-		int ymin = (int) MathUtilities.min(leftWall.getBounds().getY(), rightWall.getBounds().getY(), endWall.getBounds().getY());
-		int xmax = (int) MathUtilities.max(leftWall.getBounds().getX() + leftWall.getBounds().getWidth(), rightWall.getBounds().getX() + rightWall.getBounds().getWidth(),
+	public Rectangle2D.Double getBounds() {
+		double xmin = MathUtilities.min(leftWall.getBounds().getX(), rightWall.getBounds().getX(), endWall.getBounds().getX());
+		double ymin = MathUtilities.min(leftWall.getBounds().getY(), rightWall.getBounds().getY(), endWall.getBounds().getY());
+		double xmax = MathUtilities.max(leftWall.getBounds().getX() + leftWall.getBounds().getWidth(), rightWall.getBounds().getX() + rightWall.getBounds().getWidth(),
 				endWall.getBounds().getX() + endWall.getBounds().getWidth());
-		int ymax = (int) MathUtilities.max(leftWall.getBounds().getY() + leftWall.getBounds().getHeight(),
-				rightWall.getBounds().getY() + rightWall.getBounds().getHeight(), endWall.getBounds().getY() + endWall.getBounds().getHeight());
-		return new Rectangle(xmin, ymin, xmax - xmin, ymax - ymin);
+		double ymax = MathUtilities.max(leftWall.getBounds().getY() + leftWall.getBounds().getHeight(), rightWall.getBounds().getY() + rightWall.getBounds().getHeight(),
+				endWall.getBounds().getY() + endWall.getBounds().getHeight());
+		return new Rectangle2D.Double(xmin, ymin, xmax - xmin, ymax - ymin);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import aragorn.autonomous.car.action.listener.ChangeMazeActionListener;
 import aragorn.autonomous.car.action.listener.ResetActionListener;
 import aragorn.autonomous.car.object.CircularCar;
 import aragorn.autonomous.car.object.RectangularCar;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystemOld;
+import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.gui.menu.items.ExportCarTrack4DMenuItem;
 import aragorn.autonomous.car.zold.gui.menu.items.ExportCarTrack6DMenuItem;
 import aragorn.autonomous.car.zold.gui.menu.items.ExportLinearMazeMenuItem;
@@ -29,9 +29,9 @@ class MainMenuBar extends JMenuBar {
 
 	private GuiFrame frame;
 
-	private AutonomousSystemOld autonomousSystem;
+	private AutonomousSystem autonomousSystem;
 
-	MainMenuBar(GuiFrame frame, AutonomousSystemOld autonomousSystem) {
+	MainMenuBar(GuiFrame frame, AutonomousSystem autonomousSystem) {
 		this.frame = frame;
 		this.autonomousSystem = autonomousSystem;
 		fileChooser.setFileFilter(new FileNameExtensionFilter("text file", "txt"));

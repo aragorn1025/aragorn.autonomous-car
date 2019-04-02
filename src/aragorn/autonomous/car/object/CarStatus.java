@@ -97,7 +97,7 @@ public class CarStatus implements Cloneable {
 	public void setWheelAngle(double wheel_angle) {
 		if (!Double.isFinite(wheel_angle))
 			throw new InvalidParameterException("The input parameter wheel angle should be a finite number.");
-		this.wheel_angle = (wheel_angle + Math.PI) % (Math.PI * 2.0) - Math.PI;
+		this.wheel_angle = (wheel_angle + Math.PI) % (Math.PI * 2.0) - (wheel_angle + Math.PI >= 0.0 ? 1.0 : -1.0) * Math.PI;
 		if (this.wheel_angle > CarStatus.MAX_WHEEL_ANGLE) {
 			this.wheel_angle = CarStatus.MAX_WHEEL_ANGLE;
 		} else if (this.wheel_angle < CarStatus.MIN_WHEEL_ANGLE) {

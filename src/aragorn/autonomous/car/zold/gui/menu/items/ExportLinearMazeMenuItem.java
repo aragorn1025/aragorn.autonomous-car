@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystemOld;
+import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.gui.MainFrame;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
@@ -28,9 +28,9 @@ public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 
 	private JFileChooser fileChooser;
 
-	private AutonomousSystemOld autonomousSystem;
+	private AutonomousSystem autonomousSystem;
 
-	public ExportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystemOld autonomousSystem) {
+	public ExportLinearMazeMenuItem(GuiFrame frame, JFileChooser fileChooser, AutonomousSystem autonomousSystem) {
 		super("Export Linear Maze", '\0');
 		this.frame = frame;
 		this.fileChooser = fileChooser;

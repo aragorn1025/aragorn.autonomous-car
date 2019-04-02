@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystemOld;
+import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.gui.GuiPanel;
 
 @SuppressWarnings("serial")
@@ -24,7 +24,7 @@ class InfoPanel extends GuiPanel {
 		label.setHorizontalAlignment(JTextField.TRAILING);
 	}
 
-	private AutonomousSystemOld autonomousSystem;
+	private AutonomousSystem autonomousSystem;
 
 	private final String[] STRINGS = new String[] { "X", "Y", "Direction", "Wheel", "Front", "Left", "Right" };
 
@@ -32,7 +32,7 @@ class InfoPanel extends GuiPanel {
 
 	private JTextField[] fields = new JTextField[STRINGS.length];
 
-	InfoPanel(AutonomousSystemOld autonomousSystem) {
+	InfoPanel(AutonomousSystem autonomousSystem) {
 		super("Info");
 		setDefaultMargin(5);
 		setAutonomousSystem(autonomousSystem);
@@ -64,7 +64,7 @@ class InfoPanel extends GuiPanel {
 		setText(fields[6], autonomousSystem.detectLeft());
 	}
 
-	private void setAutonomousSystem(AutonomousSystemOld autonomousSystem) {
+	private void setAutonomousSystem(AutonomousSystem autonomousSystem) {
 		this.autonomousSystem = autonomousSystem;
 	}
 

@@ -4,18 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.security.InvalidParameterException;
 import javax.swing.border.LineBorder;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystemOld;
+import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.gui.GuiCoordinate2D;
 import aragorn.gui.GuiPanel;
 
 @SuppressWarnings("serial")
 class MazePanel extends GuiPanel {
 
-	private AutonomousSystemOld autonomousSystem;
+	private AutonomousSystem autonomousSystem;
 
 	private int printStep;
 
-	MazePanel(AutonomousSystemOld autonomousSystem) {
+	MazePanel(AutonomousSystem autonomousSystem) {
 		super();
 		setAutonomousSystem(autonomousSystem);
 		setBackground(Color.WHITE);
@@ -40,7 +40,7 @@ class MazePanel extends GuiPanel {
 		repaint();
 	}
 
-	private void setAutonomousSystem(AutonomousSystemOld autonomousSystem) {
+	private void setAutonomousSystem(AutonomousSystem autonomousSystem) {
 		this.autonomousSystem = autonomousSystem;
 		reset();
 	}

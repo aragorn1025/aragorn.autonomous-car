@@ -5,7 +5,7 @@ import java.awt.GridBagConstraints;
 import java.io.File;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.object.CircularCar;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystemOld;
+import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.fuzzy.system.FuzzyAutonomousSystem;
 import aragorn.autonomous.car.zold.objects.DefaultMaze;
 import aragorn.gui.GuiFrame;
@@ -16,7 +16,7 @@ public class MainFrame extends GuiFrame {
 
 	public static final File DESKTOP = new File(System.getProperty("user.home") + "/Desktop");
 
-	private AutonomousSystemOld autonomousSystem;
+	private AutonomousSystem autonomousSystem;
 
 	private MazePanel mazePanel;
 

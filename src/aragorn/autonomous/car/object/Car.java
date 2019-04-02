@@ -3,13 +3,14 @@ package aragorn.autonomous.car.object;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.security.InvalidParameterException;
 import aragorn.gui.GuiCoordinate2D;
 import aragorn.gui.GuiPaintable;
 import aragorn.util.MathGeometryParallelogram2D;
 import aragorn.util.MathVector2D;
 
-public abstract class Car implements GuiPaintable {
+public abstract class Car implements Cloneable, GuiPaintable {
 
 	/** The arc angle for {@code paintWheelDirectionRange(...)} in degree. */
 	private static final int ARC_DEGREE = (int) Math.toDegrees(CarStatus.MAX_WHEEL_ANGLE - CarStatus.MIN_WHEEL_ANGLE);
@@ -20,11 +21,17 @@ public abstract class Car implements GuiPaintable {
 
 	private CarStatus status;
 
-	/** The bar value for {@code paintCar(...)} and the others. */
-	private double bar;
+	/** The parameter for drawing car body. */
+	private double length_bar;
 
-	/** The radius length for {@code paintWheelDirection(...)} and {@code paintWheelDirectionRange(...)}. */
+	/** The parameter for drawing car body. */
+	private double widthh_bar;
+
+	/** The parameter for drawing car wheel. */
 	private double wheel_range;
+
+	/** The parameter for drawing car wheel. */
+	private double wheel_range_bar;
 
 	protected Car(double length, double width, CarStatus status) {
 		this.length = length;
@@ -32,16 +39,31 @@ public abstract class Car implements GuiPaintable {
 		this.status = (CarStatus) status.clone();
 
 		// initial parameters for paint car
-		bar = Math.min(length / 3.0, 10.0);
-		wheel_range = Math.min(length, 10.0);
+		double bar = Math.min(length / 5.0, 5.0);
+		wheel_range = Math.min(length * 3.0 / 4.0, 5.0);
+		length_bar = length + bar * 2;
+		widthh_bar = width + bar * 2;
+		wheel_range_bar = wheel_range + bar;
+	}
+
+	@Override
+	protected Object clone() {
+		Car val = null;
+		try {
+			val = (Car) super.clone();
+			val.status = (CarStatus) val.status.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new InternalError(e.toString());
+		}
+		return val;
 	}
 
 	@Override
 	public void draw(Graphics g, GuiCoordinate2D c) {
-		g.setColor(Color.GRAY);
+		g.setColor(Color.LIGHT_GRAY);
 		drawCarBodyCrossLine(g, c);
 		drawWheelDirectionRange(g, c);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLUE);
 		drawCarBody(g, c);
 		g.setColor(Color.BLUE);
 		drawWheelDirection(g, c);
@@ -50,61 +72,42 @@ public abstract class Car implements GuiPaintable {
 	protected abstract void drawCarBody(Graphics g, GuiCoordinate2D c);
 
 	private void drawCarBodyCrossLine(Graphics g, GuiCoordinate2D c) {
-		// the offset of the center and the bar end of the front of the car body
-		double length_bar = getLength() + bar * 2;
-		MathVector2D front_vector = new MathVector2D(length_bar * Math.cos(getStatus().getDirection()) / 2, length_bar * Math.sin(getStatus().getDirection()) / 2);
+		MathVector2D front_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection()), length_bar / 2.0);
+		MathVector2D right_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection() - Math.PI / 2.0), widthh_bar / 2.0);
 
-		// the offset of the center and the bar end of the right of the car body
-		double width_bar = getWidth() + bar * 2;
-		MathVector2D right_vector = new MathVector2D(width_bar * Math.sin(getStatus().getDirection()) / 2, -width_bar * Math.cos(getStatus().getDirection()) / 2);
-
-		GuiPaintable.drawLine(g, c, MathVector2D.add(status.getLocation(), front_vector), MathVector2D.add(status.getLocation(), front_vector.getNegative()));
-		GuiPaintable.drawLine(g, c, MathVector2D.add(status.getLocation(), right_vector), MathVector2D.add(status.getLocation(), right_vector.getNegative()));
-	}
-
-	public void drawShadow(Graphics g, GuiCoordinate2D c, CarStatus status) {
-		CarStatus temp = this.status;
-		this.status = status;
-		g.setColor(Color.LIGHT_GRAY);
-		drawCarBody(g, c);
-		drawDirection(g, c);
-		this.status = temp;
+		GuiPaintable.drawLine(g, c, MathVector2D.add(status.getLocation(), front_bar_vector), MathVector2D.add(status.getLocation(), front_bar_vector.getNegative()));
+		GuiPaintable.drawLine(g, c, MathVector2D.add(status.getLocation(), right_bar_vector), MathVector2D.add(status.getLocation(), right_bar_vector.getNegative()));
 	}
 
 	private void drawDirection(Graphics g, GuiCoordinate2D c) {
-		MathVector2D v = new MathVector2D((getWheelRange() + bar) * Math.cos(getStatus().getDirection()), (getWheelRange() + bar) * Math.sin(getStatus().getDirection()));
-		GuiPaintable.drawLine(g, c, status.getLocation(), v);
+		MathVector2D vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection()), wheel_range_bar);
+		GuiPaintable.drawLine(g, c, status.getLocation(), vector);
+	}
+
+	public void drawShadow(Graphics g, GuiCoordinate2D c, CarStatus status) {
+		Car val = (Car) clone();
+		val.status = status;
+
+		g.setColor(Color.LIGHT_GRAY);
+		val.drawCarBody(g, c);
+		val.drawDirection(g, c);
 	}
 
 	private void drawWheelDirection(Graphics g, GuiCoordinate2D c) {
-		MathVector2D v = new MathVector2D((getWheelRange() + bar) * Math.cos(status.getDirection() + status.getWheelAngle()),
-				(getWheelRange() + bar) * Math.sin(status.getDirection() + status.getWheelAngle()));
+		MathVector2D v = MathVector2D.getScalarMultiply(new MathVector2D(status.getDirection() + status.getWheelAngle()), wheel_range_bar);
 		GuiPaintable.drawLine(g, c, status.getLocation(), v);
 	}
 
 	private void drawWheelDirectionRange(Graphics g, GuiCoordinate2D c) {
-		// the offset of the center and the bar end of the right side bar
-		MathVector2D rv = new MathVector2D((getWheelRange() + bar) * Math.cos(status.getDirection() + CarStatus.MIN_WHEEL_ANGLE),
-				(getWheelRange() + bar) * Math.sin(status.getDirection() + CarStatus.MIN_WHEEL_ANGLE));
+		MathVector2D right_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(status.getDirection() + CarStatus.MIN_WHEEL_ANGLE), wheel_range_bar);
+		MathVector2D leftt_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(status.getDirection() + CarStatus.MAX_WHEEL_ANGLE), wheel_range_bar);
+		GuiPaintable.drawLine(g, c, status.getLocation(), right_bar_vector);
+		GuiPaintable.drawLine(g, c, status.getLocation(), leftt_bar_vector);
 
-		// the offset of the center and the bar end of the left side bar
-		MathVector2D lv = new MathVector2D((getWheelRange() + bar) * Math.cos(status.getDirection() + CarStatus.MAX_WHEEL_ANGLE),
-				(getWheelRange() + bar) * Math.sin(status.getDirection() + CarStatus.MAX_WHEEL_ANGLE));
-
-		// the left top of the arc
-		Point2D.Double ltp = new Point2D.Double(status.getLocation().x - getWheelRange(), status.getLocation().y + getWheelRange());
-		Point2D.Double ltpc = c.convertToPanel(ltp);
-
-		// the width and the height of the arc
-		MathVector2D av = new MathVector2D(2 * getWheelRange(), -2 * getWheelRange());
-		MathVector2D avc = c.convertToPanel(av);
-
-		// the start angle of the arc
-		int startAngle = (int) Math.toDegrees(status.getDirection() + CarStatus.MIN_WHEEL_ANGLE);
-
-		GuiPaintable.drawLine(g, c, status.getLocation(), rv);
-		GuiPaintable.drawLine(g, c, status.getLocation(), lv);
-		g.drawArc((int) ltpc.getX(), (int) ltpc.getY(), (int) avc.getX(), (int) avc.getY(), startAngle, ARC_DEGREE);
+		Point2D.Double reference_point = c.convertToPanel(new Point2D.Double(status.getLocation().x - wheel_range, status.getLocation().y + wheel_range));
+		MathVector2D size_vector = c.convertToPanel(MathVector2D.getScalarMultiply(new MathVector2D(1, -1), 2 * wheel_range));
+		int starting_degree = (int) Math.toDegrees(status.getDirection() + CarStatus.MIN_WHEEL_ANGLE);
+		g.drawArc((int) reference_point.getX(), (int) reference_point.getY(), (int) size_vector.getX(), (int) size_vector.getY(), starting_degree, ARC_DEGREE);
 	}
 
 	@Override
@@ -130,32 +133,47 @@ public abstract class Car implements GuiPaintable {
 		return true;
 	}
 
-	public int getLength() {
-		return (int) length;
+	public CarStatus getCloneStatus() {
+		return (CarStatus) this.status.clone();
 	}
+
+	public abstract double getFrontSensorOffset();
+
+	public abstract double getLeftSensorOffset();
+
+	public double getLength() {
+		return length;
+	}
+
+	public abstract double getRightSensorOffset();
 
 	public CarStatus getStatus() {
 		return status;
 	}
 
-	private int getWheelRange() {
-		return (int) wheel_range;
+	public double getWidth() {
+		return width;
 	}
 
-	public int getWidth() {
-		return (int) width;
-	}
-
-	public abstract boolean isInside(MathGeometryParallelogram2D parallelogram);
-
-	public void move(double wheelAngle) {
-		if (Double.isNaN(wheelAngle)) {
-			throw new InvalidParameterException("Input parameter wheel angle is NaN.");
+	public boolean isInside(MathGeometryParallelogram2D parallelogram) {
+		Rectangle2D.Double bounds = getBounds();
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				if (!parallelogram.isSurround(new Point2D.Double(bounds.getX() + i * bounds.getWidth(), bounds.getY() + j * bounds.getHeight()))) {
+					return false;
+				}
+			}
 		}
-		status.setWheelAngle(Math.toRadians(wheelAngle));
+		return true;
+	}
+
+	public void move(double wheel_angle) {
+		if (!Double.isFinite(wheel_angle))
+			throw new InvalidParameterException("Input parameter wheel angle should be a finite number.");
+		status.setWheelAngle(Math.toRadians(wheel_angle));
 		status.setLocationByOffset(Math.cos(getStatus().getDirection()) * Math.cos(status.getWheelAngle()),
 				Math.sin(getStatus().getDirection()) * Math.cos(status.getWheelAngle()));
-		status.setDirection(status.getDirection() + Math.asin(2.0 * Math.sin(status.getWheelAngle()) / getLength()));
+		status.setDirection(status.getDirection() + Math.asin(2.0 * Math.sin(status.getWheelAngle()) / length));
 	}
 
 	public void reset() {
@@ -163,9 +181,5 @@ public abstract class Car implements GuiPaintable {
 		status.getLocation().y = 0;
 		status.setDirection(Math.PI / 2.0);
 		status.setWheelAngle(0);
-	}
-
-	public CarStatus toShadow() {
-		return (CarStatus) this.status.clone();
 	}
 }

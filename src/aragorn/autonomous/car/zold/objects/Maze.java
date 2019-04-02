@@ -1,7 +1,7 @@
 package aragorn.autonomous.car.zold.objects;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import aragorn.gui.GuiCoordinate2D;
 import aragorn.gui.GuiPaintable;
 import aragorn.util.MathGeometryParallelogram2D;
@@ -9,7 +9,7 @@ import aragorn.util.MathGeometryPolyline2D;
 
 public interface Maze extends GuiPaintable {
 
-	public Rectangle getBounds();
+	public Rectangle2D.Double getBounds();
 
 	public double getBoundsHypotenuse();
 
