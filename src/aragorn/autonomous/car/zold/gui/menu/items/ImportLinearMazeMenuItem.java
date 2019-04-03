@@ -13,7 +13,7 @@ import aragorn.autonomous.car.zold.gui.MainFrame;
 import aragorn.autonomous.car.zold.objects.LinearMaze;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
-import aragorn.util.MathGeometryPolyline2D;
+import aragorn.math.geometry.Polyline2D;
 
 @SuppressWarnings("serial")
 public class ImportLinearMazeMenuItem extends GuiMenuItem implements ActionListener {
@@ -83,10 +83,10 @@ public class ImportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 					}
 
 					Scanner input = new Scanner(file);
-					MathGeometryPolyline2D leftWall = new MathGeometryPolyline2D();
-					MathGeometryPolyline2D rightWall = new MathGeometryPolyline2D();
-					MathGeometryPolyline2D endWall = new MathGeometryPolyline2D();
-					MathGeometryPolyline2D wall;
+					Polyline2D leftWall = new Polyline2D();
+					Polyline2D rightWall = new Polyline2D();
+					Polyline2D endWall = new Polyline2D();
+					Polyline2D wall;
 					for (int j = 0; j < 3; j++) {
 						switch (j) {
 							case 0:

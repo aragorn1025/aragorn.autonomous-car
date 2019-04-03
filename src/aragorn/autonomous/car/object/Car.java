@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.security.InvalidParameterException;
 import aragorn.gui.GuiCoordinate2D;
 import aragorn.gui.GuiPaintable;
-import aragorn.util.MathGeometryParallelogram2D;
+import aragorn.math.geometry.ConvexQuadrilateral2D;
 import aragorn.util.MathVector2D;
 
 public abstract class Car implements Cloneable, GuiPaintable {
@@ -155,11 +155,11 @@ public abstract class Car implements Cloneable, GuiPaintable {
 		return width;
 	}
 
-	public boolean isInside(MathGeometryParallelogram2D parallelogram) {
+	public boolean isInside(ConvexQuadrilateral2D quadrilateral) {
 		Rectangle2D.Double bounds = getBounds();
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
-				if (!parallelogram.isSurround(new Point2D.Double(bounds.getX() + i * bounds.getWidth(), bounds.getY() + j * bounds.getHeight()))) {
+				if (!quadrilateral.isSurround(new Point2D.Double(bounds.getX() + i * bounds.getWidth(), bounds.getY() + j * bounds.getHeight()))) {
 					return false;
 				}
 			}

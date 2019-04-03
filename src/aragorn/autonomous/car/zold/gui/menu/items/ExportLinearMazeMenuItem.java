@@ -11,7 +11,7 @@ import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.gui.MainFrame;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
-import aragorn.util.MathGeometryPolyline2D;
+import aragorn.math.geometry.Polyline2D;
 
 @SuppressWarnings("serial")
 public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListener {
@@ -62,7 +62,7 @@ public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 						return;
 					}
 					PrintWriter output = new PrintWriter(file);
-					MathGeometryPolyline2D wall;
+					Polyline2D wall;
 					for (int j = 0; j < 3; j++) {
 						switch (j) {
 							case 0:

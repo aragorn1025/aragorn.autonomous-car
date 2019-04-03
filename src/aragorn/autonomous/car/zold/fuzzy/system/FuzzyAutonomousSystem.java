@@ -3,14 +3,14 @@ package aragorn.autonomous.car.zold.fuzzy.system;
 import java.util.ArrayList;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
+import aragorn.autonomous.car.object.Maze;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoDefuzzifierForAutonomousCar;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.HalfTrapezoidal;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.MembershipFunction;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.Trapezoidal;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.Triangular;
-import aragorn.autonomous.car.zold.objects.Maze;
-import aragorn.util.MathGeometryPolyline2D;
+import aragorn.math.geometry.Polyline2D;
 import aragorn.util.MathUtilities;
 
 public class FuzzyAutonomousSystem implements AutonomousSystem {
@@ -81,7 +81,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		double val = INFINITY;
 		int i, j;
 		double x0, x1, x2, y0, y1, y2, theta, delta, l, t;
-		MathGeometryPolyline2D p;
+		Polyline2D p;
 
 		x0 = car.getStatus().getLocation().getX();
 		y0 = car.getStatus().getLocation().getY();
@@ -89,13 +89,9 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		for (j = 0; j < 3; j++) {
 			switch (j) {
 				case 0:
-					p = maze.getLeftWall();
-					break;
 				case 1:
-					p = maze.getRightWall();
-					break;
 				case 2:
-					p = maze.getEndWall();
+					p = maze.getWall();
 					break;
 				default:
 					throw new UnknownError("Error happened at the method detect.");

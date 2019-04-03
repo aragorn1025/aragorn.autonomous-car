@@ -2,7 +2,7 @@ package aragorn.autonomous.car.zold.fuzzy.system;
 
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
-import aragorn.autonomous.car.zold.objects.Maze;
+import aragorn.autonomous.car.object.Maze;
 
 public interface AutonomousSystem {
 
