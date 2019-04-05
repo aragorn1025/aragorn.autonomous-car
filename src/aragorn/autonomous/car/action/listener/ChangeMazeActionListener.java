@@ -2,7 +2,8 @@ package aragorn.autonomous.car.action.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import aragorn.autonomous.car.object.Maze;
+
+import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.gui.GuiFrame;
 
@@ -12,9 +13,9 @@ public class ChangeMazeActionListener implements ActionListener {
 
 	private AutonomousSystem autonomous_system;
 
-	private Class<? extends Maze> clazz;
+	private Class<? extends LinearMaze> clazz;
 
-	public ChangeMazeActionListener(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends Maze> clazz) {
+	public ChangeMazeActionListener(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends LinearMaze> clazz) {
 		this.frame = frame;
 		this.autonomous_system = autonomous_system;
 		this.clazz = clazz;

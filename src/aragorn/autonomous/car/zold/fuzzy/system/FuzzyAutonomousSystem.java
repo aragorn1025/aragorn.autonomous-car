@@ -3,19 +3,19 @@ package aragorn.autonomous.car.zold.fuzzy.system;
 import java.util.ArrayList;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
-import aragorn.autonomous.car.object.Maze;
+import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoDefuzzifierForAutonomousCar;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.HalfTrapezoidal;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.MembershipFunction;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.Trapezoidal;
 import aragorn.autonomous.car.zold.fuzzy.memebership.function.Triangular;
-import aragorn.math.geometry.Polyline2D;
+import aragorn.math.geometry.Polygon2D;
 import aragorn.util.MathUtilities;
 
 public class FuzzyAutonomousSystem implements AutonomousSystem {
 
-	private Maze maze;
+	private LinearMaze maze;
 
 	private Car car;
 
@@ -29,7 +29,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	private ArrayList<Double> right = new ArrayList<>();
 
-	public FuzzyAutonomousSystem(Maze maze, Car car) {
+	public FuzzyAutonomousSystem(LinearMaze maze, Car car) {
 		setMaze(maze);
 		setCar(car);
 	}
@@ -81,7 +81,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		double val = INFINITY;
 		int i, j;
 		double x0, x1, x2, y0, y1, y2, theta, delta, l, t;
-		Polyline2D p;
+		Polygon2D p;
 
 		x0 = car.getStatus().getLocation().getX();
 		y0 = car.getStatus().getLocation().getY();
@@ -96,7 +96,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 				default:
 					throw new UnknownError("Error happened at the method detect.");
 			}
-			for (i = 1; i < p.getPointsNumber(); i++) {
+			for (i = 1; i < p.getPointNumber(); i++) {
 				x1 = p.getPoint(i - 1).getX();
 				y1 = p.getPoint(i - 1).getY();
 				x2 = p.getPoint(i).getX();
@@ -138,7 +138,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	}
 
 	@Override
-	public Maze getMaze() {
+	public LinearMaze getMaze() {
 		return maze;
 	}
 
@@ -259,7 +259,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	 *     if maze is null
 	 */
 	@Override
-	public void setMaze(Maze maze) {
+	public void setMaze(LinearMaze maze) {
 		if (maze == null) {
 			throw new NullPointerException();
 		} else {

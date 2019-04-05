@@ -2,7 +2,7 @@ package aragorn.autonomous.car.zold.fuzzy.system;
 
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
-import aragorn.autonomous.car.object.Maze;
+import aragorn.autonomous.car.object.LinearMaze;
 
 public interface AutonomousSystem {
 
@@ -30,7 +30,7 @@ public interface AutonomousSystem {
 
 	public int getCarTracksNumber();
 
-	public Maze getMaze();
+	public LinearMaze getMaze();
 
 	public String getSensor(int index);
 
@@ -40,5 +40,5 @@ public interface AutonomousSystem {
 
 	public void setCar(Car car);
 
-	public void setMaze(Maze maze);
+	public void setMaze(LinearMaze maze);
 }

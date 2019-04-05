@@ -5,9 +5,9 @@ import java.awt.GridBagConstraints;
 import java.io.File;
 import javax.swing.JOptionPane;
 import aragorn.autonomous.car.object.CircularCar;
+import aragorn.autonomous.car.object.DefaultMaze;
 import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.fuzzy.system.FuzzyAutonomousSystem;
-import aragorn.autonomous.car.zold.objects.DefaultMaze;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiPanel;
 

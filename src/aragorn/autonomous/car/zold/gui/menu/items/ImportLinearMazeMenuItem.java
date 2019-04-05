@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.autonomous.car.zold.gui.MainFrame;
-import aragorn.autonomous.car.zold.objects.LinearMaze;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenuItem;
 import aragorn.math.geometry.Polyline2D;

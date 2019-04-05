@@ -1,7 +1,6 @@
 package aragorn.autonomous.car.zold.math.operation;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -16,98 +15,6 @@ public class MathOperation {
 	 * {@code Scanner} for {@code valueInRange(double, double)}
 	 */
 	private static Scanner scanner;
-
-	/**
-	 * Find the largest value of the array form {@code fromIndex} to {@code toIndex}.
-	 * 
-	 * @param array
-	 *     the reference of the array
-	 * @param fromIndex
-	 *     the starting index, {@code fromIndex} including
-	 * @param toIndex
-	 *     the ending index, {@code toIndex} excluding
-	 * @return the largest value of the array form fromIndex to toIndex
-	 */
-	public static <N extends Number> double getArrayMax(ArrayList<N> array, int fromIndex, int toIndex) {
-		if (array == null)
-			throw new NullPointerException("Array is null at MathOperation.getMax(double[], int, int)");
-		if (array.size() == 0 || toIndex > array.size() || fromIndex >= toIndex)
-			throw new IndexOutOfBoundsException("Index of of bounds at MathOperation.getMax(double[], int, int)");
-		double val = array.get(fromIndex).doubleValue();
-		for (int i = fromIndex + 1; i < toIndex; i++) {
-			val = Math.max(val, array.get(i).doubleValue());
-		}
-		return val;
-	}
-
-	/**
-	 * Find the largest value of the array form {@code fromIndex} to {@code toIndex}.
-	 * 
-	 * @param array
-	 *     the reference of the array
-	 * @param fromIndex
-	 *     the starting index, {@code fromIndex} including
-	 * @param toIndex
-	 *     the ending index, {@code toIndex} excluding
-	 * @return the largest value of the array form fromIndex to toIndex
-	 */
-	public static double getArrayMax(double[] array, int fromIndex, int toIndex) {
-		if (array == null)
-			throw new NullPointerException("Array is null at MathOperation.getMax(double[], int, int)");
-		if (array.length == 0 || toIndex > array.length || fromIndex >= toIndex)
-			throw new IndexOutOfBoundsException("Index of of bounds at MathOperation.getMax(double[], int, int)");
-		double val = array[fromIndex];
-		for (int i = fromIndex + 1; i < toIndex; i++) {
-			val = Math.max(val, array[i]);
-		}
-		return val;
-	}
-
-	/**
-	 * Find the smallest value of the array form {@code fromIndex} to {@code toIndex}.
-	 * 
-	 * @param array
-	 *     the reference of the array
-	 * @param fromIndex
-	 *     the starting index, {@code fromIndex} including
-	 * @param toIndex
-	 *     the ending index, {@code toIndex} excluding
-	 * @return the smallest value of the array form fromIndex to toIndex
-	 */
-	public static <N extends Number> double getArrayMin(ArrayList<N> array, int fromIndex, int toIndex) {
-		if (array == null)
-			throw new NullPointerException("Array is null at MathOperation.getMin(double[], int, int)");
-		if (array.size() == 0 || toIndex > array.size() || fromIndex >= toIndex)
-			throw new IndexOutOfBoundsException("Index of of bounds at MathOperation.getMin(double[], int, int)");
-		double val = array.get(fromIndex).doubleValue();
-		for (int i = fromIndex + 1; i < toIndex; i++) {
-			val = Math.min(val, array.get(i).doubleValue());
-		}
-		return val;
-	}
-
-	/**
-	 * Find the smallest value of the array form {@code fromIndex} to {@code toIndex}.
-	 * 
-	 * @param array
-	 *     the reference of the array
-	 * @param fromIndex
-	 *     the starting index, {@code fromIndex} including
-	 * @param toIndex
-	 *     the ending index, {@code toIndex} excluding
-	 * @return the smallest value of the array form fromIndex to toIndex
-	 */
-	public static double getArrayMin(double[] array, int fromIndex, int toIndex) {
-		if (array == null)
-			throw new NullPointerException("Array is null at MathOperation.getMin(double[], int, int)");
-		if (array.length == 0 || toIndex > array.length || fromIndex >= toIndex)
-			throw new IndexOutOfBoundsException("Index of of bounds at MathOperation.getMin(double[], int, int)");
-		double val = array[fromIndex];
-		for (int i = fromIndex + 1; i < toIndex; i++) {
-			val = Math.min(val, array[i]);
-		}
-		return val;
-	}
 
 	/**
 	 * Tell if value is in the range.<br>

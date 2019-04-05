@@ -77,8 +77,8 @@ public class ExportLinearMazeMenuItem extends GuiMenuItem implements ActionListe
 							default:
 								throw new UnknownError("Unknown error for file chooser.");
 						}
-						output.printf("%s%n", wall.getPointsNumber());
-						for (int i = 0; i < wall.getPointsNumber(); i++) {
+						output.printf("%s%n", wall.getPointNumber());
+						for (int i = 0; i < wall.getPointNumber(); i++) {
 							output.printf("(%.7f, %.7f)%n", wall.getPoint(i).getX(), wall.getPoint(i).getY());
 						}
 					}

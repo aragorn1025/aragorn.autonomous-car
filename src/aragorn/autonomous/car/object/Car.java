@@ -5,12 +5,13 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.security.InvalidParameterException;
-import aragorn.gui.GuiCoordinate2D;
-import aragorn.gui.GuiPaintable;
+
 import aragorn.math.geometry.ConvexQuadrilateral2D;
+import aragorn.math.geometry.Coordinate2D;
+import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class Car implements Cloneable, GuiPaintable {
+public abstract class Car implements Cloneable, Paintable {
 
 	/** The arc angle for {@code paintWheelDirectionRange(...)} in degree. */
 	private static final int ARC_DEGREE = (int) Math.toDegrees(CarStatus.MAX_WHEEL_ANGLE - CarStatus.MIN_WHEEL_ANGLE);
@@ -59,7 +60,7 @@ public abstract class Car implements Cloneable, GuiPaintable {
 	}
 
 	@Override
-	public void draw(Graphics g, GuiCoordinate2D c) {
+	public void draw(Graphics g, Coordinate2D c) {
 		g.setColor(Color.LIGHT_GRAY);
 		drawCarBodyCrossLine(g, c);
 		drawWheelDirectionRange(g, c);
@@ -69,22 +70,22 @@ public abstract class Car implements Cloneable, GuiPaintable {
 		drawWheelDirection(g, c);
 	}
 
-	protected abstract void drawCarBody(Graphics g, GuiCoordinate2D c);
+	protected abstract void drawCarBody(Graphics g, Coordinate2D c);
 
-	private void drawCarBodyCrossLine(Graphics g, GuiCoordinate2D c) {
+	private void drawCarBodyCrossLine(Graphics g, Coordinate2D c) {
 		MathVector2D front_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection()), length_bar / 2.0);
 		MathVector2D right_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection() - Math.PI / 2.0), widthh_bar / 2.0);
 
-		GuiPaintable.drawLine(g, c, MathVector2D.add(status.getLocation(), front_bar_vector), MathVector2D.add(status.getLocation(), front_bar_vector.getNegative()));
-		GuiPaintable.drawLine(g, c, MathVector2D.add(status.getLocation(), right_bar_vector), MathVector2D.add(status.getLocation(), right_bar_vector.getNegative()));
+		Paintable.drawLine(g, c, MathVector2D.add(status.getLocation(), front_bar_vector), MathVector2D.add(status.getLocation(), front_bar_vector.getNegative()));
+		Paintable.drawLine(g, c, MathVector2D.add(status.getLocation(), right_bar_vector), MathVector2D.add(status.getLocation(), right_bar_vector.getNegative()));
 	}
 
-	private void drawDirection(Graphics g, GuiCoordinate2D c) {
+	private void drawDirection(Graphics g, Coordinate2D c) {
 		MathVector2D vector = MathVector2D.getScalarMultiply(new MathVector2D(getStatus().getDirection()), wheel_range_bar);
-		GuiPaintable.drawLine(g, c, status.getLocation(), vector);
+		Paintable.drawLine(g, c, status.getLocation(), vector);
 	}
 
-	public void drawShadow(Graphics g, GuiCoordinate2D c, CarStatus status) {
+	public void drawShadow(Graphics g, Coordinate2D c, CarStatus status) {
 		Car val = (Car) clone();
 		val.status = status;
 
@@ -93,16 +94,16 @@ public abstract class Car implements Cloneable, GuiPaintable {
 		val.drawDirection(g, c);
 	}
 
-	private void drawWheelDirection(Graphics g, GuiCoordinate2D c) {
+	private void drawWheelDirection(Graphics g, Coordinate2D c) {
 		MathVector2D v = MathVector2D.getScalarMultiply(new MathVector2D(status.getDirection() + status.getWheelAngle()), wheel_range_bar);
-		GuiPaintable.drawLine(g, c, status.getLocation(), v);
+		Paintable.drawLine(g, c, status.getLocation(), v);
 	}
 
-	private void drawWheelDirectionRange(Graphics g, GuiCoordinate2D c) {
+	private void drawWheelDirectionRange(Graphics g, Coordinate2D c) {
 		MathVector2D right_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(status.getDirection() + CarStatus.MIN_WHEEL_ANGLE), wheel_range_bar);
 		MathVector2D leftt_bar_vector = MathVector2D.getScalarMultiply(new MathVector2D(status.getDirection() + CarStatus.MAX_WHEEL_ANGLE), wheel_range_bar);
-		GuiPaintable.drawLine(g, c, status.getLocation(), right_bar_vector);
-		GuiPaintable.drawLine(g, c, status.getLocation(), leftt_bar_vector);
+		Paintable.drawLine(g, c, status.getLocation(), right_bar_vector);
+		Paintable.drawLine(g, c, status.getLocation(), leftt_bar_vector);
 
 		Point2D.Double reference_point = c.convertToPanel(new Point2D.Double(status.getLocation().x - wheel_range, status.getLocation().y + wheel_range));
 		MathVector2D size_vector = c.convertToPanel(MathVector2D.getScalarMultiply(new MathVector2D(1, -1), 2 * wheel_range));
@@ -157,6 +158,8 @@ public abstract class Car implements Cloneable, GuiPaintable {
 
 	public boolean isInside(ConvexQuadrilateral2D quadrilateral) {
 		Rectangle2D.Double bounds = getBounds();
+		System.out.println(quadrilateral.toString());
+		System.out.println(bounds.toString());
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
 				if (!quadrilateral.isSurround(new Point2D.Double(bounds.getX() + i * bounds.getWidth(), bounds.getY() + j * bounds.getHeight()))) {
