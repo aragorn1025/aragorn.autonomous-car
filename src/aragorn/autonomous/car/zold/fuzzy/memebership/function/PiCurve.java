@@ -1,7 +1,7 @@
 package aragorn.autonomous.car.zold.fuzzy.memebership.function;
 
 import java.security.InvalidParameterException;
-import aragorn.autonomous.car.zold.math.operation.MathOperation;
+import aragorn.autonomous.car.math.operation.MathOperation;
 
 class PiCurve implements MembershipFunction {
 

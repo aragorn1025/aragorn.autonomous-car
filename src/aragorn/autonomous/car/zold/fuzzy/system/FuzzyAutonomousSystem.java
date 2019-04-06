@@ -29,6 +29,11 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	private ArrayList<Double> right = new ArrayList<>();
 
+	@Override
+	public CarStatus getCarInitialStatus() {
+		return maze.getCarInitialStatus();
+	}
+
 	public FuzzyAutonomousSystem(LinearMaze maze, Car car) {
 		setMaze(maze);
 		setCar(car);
@@ -225,7 +230,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		left.clear();
 		right.clear();
 		tracks.clear();
-		car.reset();
+		car.reset(getCarInitialStatus());
 		addCarTrack();
 	}
 

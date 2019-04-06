@@ -32,6 +32,8 @@ public interface AutonomousSystem {
 
 	public LinearMaze getMaze();
 
+	public CarStatus getCarInitialStatus();
+
 	public String getSensor(int index);
 
 	public boolean isReachEnd();

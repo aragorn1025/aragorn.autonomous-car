@@ -18,13 +18,16 @@ public class LinearMaze implements Paintable {
 
 	protected LineSegment2D end_line;
 
+	private CarStatus car_initial_status;
+
 	protected LinearMaze() {
-		this(null, null);
+		this(null, null, null);
 	}
 
-	public LinearMaze(Polygon2D wall, LineSegment2D end_line) {
-		this.wall = wall;
+	public LinearMaze(CarStatus car_initial_status, LineSegment2D end_line, Polygon2D wall) {
+		this.car_initial_status = car_initial_status;
 		this.end_line = end_line;
+		this.wall = wall;
 	}
 
 	@Override
@@ -78,5 +81,9 @@ public class LinearMaze implements Paintable {
 
 	public Polygon2D getWall() {
 		return wall;
+	}
+
+	public CarStatus getCarInitialStatus() {
+		return car_initial_status;
 	}
 }

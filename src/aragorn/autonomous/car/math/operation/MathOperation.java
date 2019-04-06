@@ -1,4 +1,4 @@
-package aragorn.autonomous.car.zold.math.operation;
+package aragorn.autonomous.car.math.operation;
 
 import java.security.InvalidParameterException;
 import java.util.Scanner;
@@ -7,14 +7,8 @@ import java.util.Scanner;
  * {@code MathOperation} is a library within useful math function.
  * 
  * @author Aragorn
- * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Math.html">Math</a>
  */
 public class MathOperation {
-
-	/**
-	 * {@code Scanner} for {@code valueInRange(double, double)}
-	 */
-	private static Scanner scanner;
 
 	/**
 	 * Tell if value is in the range.<br>
@@ -33,68 +27,51 @@ public class MathOperation {
 	 * @return true if the value is in the range
 	 */
 	public static boolean valueInRange(double value, String range) {
-		char[] c = range.replaceAll(" ", "").toCharArray();
-		boolean isLEquals, isREquals;
-		if (c[0] == '[') {
-			isLEquals = true;
-		} else if (c[0] == '(') {
-			isLEquals = false;
-		} else {
+		range = range.replaceAll(" ", "");
+		if (range.charAt(0) != '[' && range.charAt(0) != '(')
 			throw new InvalidParameterException("Range must start with '[' or '('.");
-		}
-		if (c[c.length - 1] == ']') {
-			isREquals = true;
-		} else if (c[c.length - 1] == ')') {
-			isREquals = false;
-		} else {
+		if (range.charAt(range.length() - 1) != '[' && range.charAt(range.length() - 1) != '(')
 			throw new InvalidParameterException("Range must end with ']' or ')'.");
-		}
-		scanner = new Scanner((new String(c, 1, c.length - 2)).replaceAll(",", " "));
-		if (!scanner.hasNext())
+		boolean is_leftt_equals = (range.charAt(0) == '[');
+		boolean is_right_equals = (range.charAt(range.length() - 1) == ']');
+
+		if (range.length() - range.replaceAll(",", "").length() != 1)
 			throw new InvalidParameterException("Range must contain with only two value.");
-		String lString = scanner.next().toLowerCase();
-		if (!scanner.hasNext())
-			throw new InvalidParameterException("Range must contain with only two value.");
-		String rString = scanner.next().toLowerCase();
-		if (scanner.hasNext())
-			throw new InvalidParameterException("Range must contain with only two value.");
-		double lValue = 0, rValue = 0;
-		if (lString.equals("-infinity") || lString.equals("-inf")) {
-			lValue = Double.NEGATIVE_INFINITY;
+		Scanner range_scanner = new Scanner(range.substring(1, range.length() - 2).replaceAll(",", " "));
+		String leftt_expression = range_scanner.next().toLowerCase();
+		String right_expression = range_scanner.next().toLowerCase();
+		range_scanner.close();
+		double leftt_value = 0, right_value = 0;
+		if (leftt_expression.equals("-infinity") || leftt_expression.equals("-inf")) {
+			leftt_value = Double.NEGATIVE_INFINITY;
 		} else {
-			scanner = new Scanner(lString);
-			if (scanner.hasNextDouble()) {
-				lValue = scanner.nextDouble();
+			Scanner left_string_scanner = new Scanner(leftt_expression);
+			if (left_string_scanner.hasNextDouble()) {
+				leftt_value = left_string_scanner.nextDouble();
+				left_string_scanner.close();
 			} else {
+				left_string_scanner.close();
 				throw new InvalidParameterException("The first value must be -infinity, -inf or real number.");
 			}
 		}
-		if (rString.equals("+infinity") || rString.equals("+inf")) {
-			rValue = Double.POSITIVE_INFINITY;
+		if (right_expression.equals("+infinity") || right_expression.equals("+inf")) {
+			right_value = Double.POSITIVE_INFINITY;
 		} else {
-			scanner = new Scanner(rString);
-			if (scanner.hasNextDouble()) {
-				rValue = scanner.nextDouble();
+			Scanner right_string_scanner = new Scanner(right_expression);
+			if (right_string_scanner.hasNextDouble()) {
+				right_value = right_string_scanner.nextDouble();
+				right_string_scanner.close();
 			} else {
+				right_string_scanner.close();
 				throw new InvalidParameterException("The second value must be +infinity, +inf or real number.");
 			}
 		}
-		if (lValue > rValue)
+		if (leftt_value > right_value)
 			throw new InvalidParameterException("The first value must be larger or equal then the second value.");
-		if (isLEquals) {
-			if (value == lValue) {
-				return true;
-			}
-		}
-		if (isREquals) {
-			if (value == rValue) {
-				return true;
-			}
-		}
-		if (lValue < value && value < rValue) {
+		if (is_leftt_equals && value == leftt_value)
 			return true;
-		} else {
-			return false;
-		}
+		if (is_right_equals && value == right_value)
+			return true;
+		return (leftt_value < value && value < right_value);
 	}
 }

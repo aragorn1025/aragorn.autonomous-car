@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.security.InvalidParameterException;
-
 import aragorn.math.geometry.ConvexQuadrilateral2D;
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
@@ -179,10 +178,10 @@ public abstract class Car implements Cloneable, Paintable {
 		status.setDirection(status.getDirection() + Math.asin(2.0 * Math.sin(status.getWheelAngle()) / length));
 	}
 
-	public void reset() {
-		status.getLocation().x = 0;
-		status.getLocation().y = 0;
-		status.setDirection(Math.PI / 2.0);
-		status.setWheelAngle(0);
+	public void reset(CarStatus status) {
+		status.getLocation().x = status.getLocation().getX();
+		status.getLocation().y = status.getLocation().getY();
+		status.setDirection(status.getDirection());
+		status.setWheelAngle(status.getWheelAngle());
 	}
 }
