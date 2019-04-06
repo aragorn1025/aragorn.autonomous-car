@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.gui.GuiFileChooser;
@@ -22,6 +23,7 @@ public class SaveLinearMazeFileChooser extends GuiFileChooser.Save {
 
 		setCurrentDirectory(GuiFileChooser.USER_DESKTOP);
 		setDialogTitle("Save linear maze file...");
+		setFileFilter(new FileNameExtensionFilter("text file", "txt"));
 	}
 
 	@Override

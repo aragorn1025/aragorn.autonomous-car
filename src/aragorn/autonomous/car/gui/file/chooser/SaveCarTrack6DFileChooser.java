@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
 import aragorn.gui.GuiFileChooser;
 import aragorn.gui.GuiFrame;
@@ -19,6 +20,7 @@ public class SaveCarTrack6DFileChooser extends GuiFileChooser.Save {
 
 		setCurrentDirectory(GuiFileChooser.USER_DESKTOP);
 		setDialogTitle("Save car track 6D file...");
+		setFileFilter(new FileNameExtensionFilter("text file", "txt"));
 	}
 
 	@Override

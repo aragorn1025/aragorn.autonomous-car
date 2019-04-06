@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
@@ -24,6 +25,7 @@ public class OpenLinearMazeFileChooser extends GuiFileChooser.Open {
 
 		setCurrentDirectory(GuiFileChooser.USER_DESKTOP);
 		setDialogTitle("Open linear maze file...");
+		setFileFilter(new FileNameExtensionFilter("text file", "txt"));
 	}
 
 	@Override

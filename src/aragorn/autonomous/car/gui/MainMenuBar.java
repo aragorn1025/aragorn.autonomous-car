@@ -1,8 +1,6 @@
-package aragorn.autonomous.car.zold.gui;
+package aragorn.autonomous.car.gui;
 
-import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import aragorn.autonomous.car.gui.action.listener.ChangeCarActionListener;
 import aragorn.autonomous.car.gui.action.listener.ChangeMazeActionListener;
 import aragorn.autonomous.car.gui.action.listener.FileIoActionListener;
@@ -26,27 +24,17 @@ import aragorn.gui.action.listener.PlayGuiFrameActionListener;
 @SuppressWarnings("serial")
 class MainMenuBar extends JMenuBar {
 
-	private JFileChooser file_chooser = new JFileChooser(MainFrame.DESKTOP);
-
-	private GuiFrame frame;
-
-	private AutonomousSystem autonomous_system;
-
 	MainMenuBar(GuiFrame frame, AutonomousSystem autonomous_system) {
-		this.frame = frame;
-		this.autonomous_system = autonomous_system;
-		file_chooser.setFileFilter(new FileNameExtensionFilter("text file", "txt"));
-
-		add(getFileMenu());
-		add(getPlayMenu());
-		add(getMazeMenu());
-		add(getCarMenu());
+		add(MainMenuBar.getFileMenu(frame, autonomous_system));
+		add(MainMenuBar.getPlayMenu(frame, autonomous_system));
+		add(MainMenuBar.getMazeMenu(frame, autonomous_system));
+		add(MainMenuBar.getCarMenu(frame, autonomous_system));
 	}
 
-	private GuiMenu getFileMenu() {
+	private static GuiMenu getFileMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("File");
-		menu.add(getFileImportMenu());
-		menu.add(getFileExportMenu());
+		menu.add(getFileImportMenu(frame, autonomous_system));
+		menu.add(getFileExportMenu(frame, autonomous_system));
 		// menu.add(new JSeparator());
 		// menu.add(new JMenuItem("Export All"));
 		menu.addSeparator();
@@ -55,14 +43,14 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
-	private GuiMenu getFileImportMenu() {
+	private static GuiMenu getFileImportMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Import");
 		menu.add(new GuiMenuItem("Import Linear Maze", '\0'));
 		menu.getItem(0).addActionListener(new FileIoActionListener(new OpenLinearMazeFileChooser(frame, autonomous_system)));
 		return menu;
 	}
 
-	private GuiMenu getFileExportMenu() {
+	private static GuiMenu getFileExportMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Export");
 		menu.add(new GuiMenuItem("Export Linear Maze", '\0'));
 		menu.getItem(0).addActionListener(new FileIoActionListener(new SaveLinearMazeFileChooser(frame, autonomous_system)));
@@ -74,7 +62,7 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
-	private GuiMenu getPlayMenu() {
+	private static GuiMenu getPlayMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Play");
 		menu.add(new GuiMenuItem("Play", 'Z'));
 		menu.getItem(0).addActionListener(new PlayGuiFrameActionListener(frame));
@@ -86,7 +74,7 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
-	private GuiMenu getMazeMenu() {
+	private static GuiMenu getMazeMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Maze");
 		menu.add(new GuiMenuItem("Change to the default maze", '0'));
 		menu.getItem(0).addActionListener(new ChangeMazeActionListener(frame, autonomous_system, DefaultMaze.class));
@@ -95,7 +83,7 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
-	private GuiMenu getCarMenu() {
+	private static GuiMenu getCarMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Car");
 		menu.add(new GuiMenuItem("Change to a circular car", '1'));
 		menu.getItem(0).addActionListener(new ChangeCarActionListener(frame, autonomous_system, CircularCar.class));
