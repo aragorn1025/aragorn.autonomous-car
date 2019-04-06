@@ -1,4 +1,4 @@
-package aragorn.autonomous.car.zold.fuzzy.memebership.function;
+package aragorn.autonomous.car.fuzzy.membership.function;
 
 public interface MembershipFunction {
 

@@ -42,8 +42,8 @@ public class LinearMaze implements Paintable {
 		return getWall().getBounds();
 	}
 
-	public double getBoundsHypotenuse() {
-		return Math.sqrt(Math.pow(getBounds().getWidth(), 2) + Math.pow(getBounds().getHeight(), 2));
+	public CarStatus getCarInitialStatus() {
+		return car_initial_status;
 	}
 
 	public ConvexQuadrilateral2D getEndArea() {
@@ -81,9 +81,5 @@ public class LinearMaze implements Paintable {
 
 	public Polygon2D getWall() {
 		return wall;
-	}
-
-	public CarStatus getCarInitialStatus() {
-		return car_initial_status;
 	}
 }

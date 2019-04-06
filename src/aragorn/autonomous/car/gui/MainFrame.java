@@ -35,6 +35,13 @@ public class MainFrame extends GuiFrame {
 	}
 
 	@Override
+	public void repaint() {
+		super.repaint();
+		maze_panel.repaint();
+		info_panel.repaint();
+	}
+
+	@Override
 	protected void run() {
 		boolean toStop = autonomous_system.control();
 		autonomous_system.addCarTrack();
@@ -43,12 +50,5 @@ public class MainFrame extends GuiFrame {
 			pause();
 			echo("The car gets ends.", GuiFrame.INFORMATION_MESSAGE);
 		}
-	}
-
-	@Override
-	public void repaint() {
-		super.repaint();
-		maze_panel.repaint();
-		info_panel.repaint();
 	}
 }

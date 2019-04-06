@@ -26,13 +26,13 @@ public interface AutonomousSystem {
 
 	public Car getCar();
 
+	public CarStatus getCarInitialStatus();
+
 	public CarStatus getCarTracks(int index);
 
 	public int getCarTracksNumber();
 
 	public LinearMaze getMaze();
-
-	public CarStatus getCarInitialStatus();
 
 	public String getSensor(int index);
 

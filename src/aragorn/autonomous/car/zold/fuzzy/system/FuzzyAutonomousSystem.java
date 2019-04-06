@@ -1,15 +1,15 @@
 package aragorn.autonomous.car.zold.fuzzy.system;
 
 import java.util.ArrayList;
+import aragorn.autonomous.car.fuzzy.membership.function.HalfTrapezoidal;
+import aragorn.autonomous.car.fuzzy.membership.function.MembershipFunction;
+import aragorn.autonomous.car.fuzzy.membership.function.Trapezoidal;
+import aragorn.autonomous.car.fuzzy.membership.function.Triangular;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoDefuzzifierForAutonomousCar;
 import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
-import aragorn.autonomous.car.zold.fuzzy.memebership.function.HalfTrapezoidal;
-import aragorn.autonomous.car.zold.fuzzy.memebership.function.MembershipFunction;
-import aragorn.autonomous.car.zold.fuzzy.memebership.function.Trapezoidal;
-import aragorn.autonomous.car.zold.fuzzy.memebership.function.Triangular;
 import aragorn.math.geometry.Polygon2D;
 import aragorn.util.MathUtilities;
 
@@ -19,8 +19,6 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	private Car car;
 
-	private double INFINITY;
-
 	private ArrayList<CarStatus> tracks = new ArrayList<>();
 
 	private ArrayList<Double> front = new ArrayList<>();
@@ -29,11 +27,6 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	private ArrayList<Double> right = new ArrayList<>();
 
-	@Override
-	public CarStatus getCarInitialStatus() {
-		return maze.getCarInitialStatus();
-	}
-
 	public FuzzyAutonomousSystem(LinearMaze maze, Car car) {
 		setMaze(maze);
 		setCar(car);
@@ -41,14 +34,14 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	@Override
 	public void addCarTrack() {
-		tracks.add((CarStatus) getCar().getCloneStatus());
+		tracks.add(getCar().getCloneStatus());
 		front.add(detectFront());
 		left.add(detectLeft());
 		right.add(detectRight());
 	}
 
 	@Override
-	public boolean control() {
+	public boolean control() { // TODO uncheck
 		double x_a = detectFront();
 		double x_b = detectRight() - detectLeft();
 		double[][] alpha = new double[2][3];
@@ -82,45 +75,34 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	}
 
 	@Override
-	public double detect(double angle) {
-		double val = INFINITY;
-		int i, j;
+	public double detect(double angle) { // TODO checking
+		double val = Double.POSITIVE_INFINITY;
 		double x0, x1, x2, y0, y1, y2, theta, delta, l, t;
 		Polygon2D p;
 
 		x0 = car.getStatus().getLocation().getX();
 		y0 = car.getStatus().getLocation().getY();
-		theta = Math.toRadians((Math.toDegrees(car.getStatus().getDirection()) + angle + 360.0) % 360.0);
-		for (j = 0; j < 3; j++) {
-			switch (j) {
-				case 0:
-				case 1:
-				case 2:
-					p = maze.getWall();
-					break;
-				default:
-					throw new UnknownError("Error happened at the method detect.");
-			}
-			for (i = 1; i < p.getPointNumber(); i++) {
-				x1 = p.getPoint(i - 1).getX();
-				y1 = p.getPoint(i - 1).getY();
-				x2 = p.getPoint(i).getX();
-				y2 = p.getPoint(i).getY();
+		theta = ((car.getStatus().getDirection() + Math.toRadians(angle)) % (Math.PI * 2.0) + Math.PI * 2.0) % (Math.PI * 2.0);
+		p = maze.getWall();
+		for (int i = 1; i < p.getPointNumber(); i++) {
+			x1 = p.getPoint(i - 1).getX();
+			y1 = p.getPoint(i - 1).getY();
+			x2 = p.getPoint(i).getX();
+			y2 = p.getPoint(i).getY();
 
-				delta = MathUtilities.determinant_2_2(Math.cos(theta), Math.sin(theta), -x2 + x1, -y2 + y1);
-				if (delta == 0) {
-					continue;
-				}
-				l = MathUtilities.determinant_2_2(x1 - x0, y1 - y0, -x2 + x1, -y2 + y1) / delta;
-				if (l < 0) {
-					continue;
-				}
-				t = MathUtilities.determinant_2_2(Math.cos(theta), Math.sin(theta), x1 - x0, y1 - y0) / delta;
-				if (t < 0 || t > 1) {
-					continue;
-				}
-				val = Math.min(val, l);
+			delta = MathUtilities.determinant_2_2(Math.cos(theta), Math.sin(theta), -x2 + x1, -y2 + y1);
+			if (delta == 0) {
+				continue;
 			}
+			l = MathUtilities.determinant_2_2(x1 - x0, y1 - y0, -x2 + x1, -y2 + y1) / delta;
+			if (l < 0) {
+				continue;
+			}
+			t = MathUtilities.determinant_2_2(Math.cos(theta), Math.sin(theta), x1 - x0, y1 - y0) / delta;
+			if (t < 0 || t > 1) {
+				continue;
+			}
+			val = Math.min(val, l);
 		}
 		return val;
 	}
@@ -130,15 +112,19 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		return car;
 	}
 
+	@Override
+	public CarStatus getCarInitialStatus() {
+		return maze.getCarInitialStatus();
+	}
+
 	public CarStatus getCarTracks(int index) {
 		return tracks.get(index);
 	}
 
 	@Override
 	public int getCarTracksNumber() {
-		if (tracks.size() != front.size() || tracks.size() != right.size() || tracks.size() != left.size()) {
+		if (tracks.size() != front.size() || tracks.size() != right.size() || tracks.size() != left.size())
 			throw new UnknownError("Arraylist size is not equal.");
-		}
 		return tracks.size();
 	}
 
@@ -149,11 +135,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 
 	@Override
 	public String getSensor(int index) {
-		String f, r, l;
-		f = (front.get(index) == INFINITY) ? "Infinity" : String.format("%.7f", front.get(index));
-		r = (right.get(index) == INFINITY) ? "Infinity" : String.format("%.7f", right.get(index));
-		l = (left.get(index) == INFINITY) ? "Infinity" : String.format("%.7f", left.get(index));
-		return String.format("%s %s %s", f, r, l);
+		return String.format("%.7f %.7f %.7f", front.get(index), right.get(index), left.get(index));
 	}
 
 	@Override
@@ -246,13 +228,11 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	 */
 	@Override
 	public void setCar(Car car) {
-		if (car == null) {
+		if (car == null)
 			throw new NullPointerException();
-		} else if (car.getClass().getSuperclass() != Car.class) {
+		if (car.getClass().getSuperclass() != Car.class)
 			throw new Error("Error class for setCar(Car).");
-		} else {
-			this.car = car;
-		}
+		this.car = car;
 	}
 
 	/**
@@ -265,11 +245,8 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	 */
 	@Override
 	public void setMaze(LinearMaze maze) {
-		if (maze == null) {
+		if (maze == null)
 			throw new NullPointerException();
-		} else {
-			this.maze = maze;
-			INFINITY = 4.0 * maze.getBoundsHypotenuse();
-		}
+		this.maze = maze;
 	}
 }

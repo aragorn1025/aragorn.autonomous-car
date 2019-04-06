@@ -24,29 +24,12 @@ import aragorn.gui.action.listener.PlayGuiFrameActionListener;
 @SuppressWarnings("serial")
 class MainMenuBar extends JMenuBar {
 
-	MainMenuBar(GuiFrame frame, AutonomousSystem autonomous_system) {
-		add(MainMenuBar.getFileMenu(frame, autonomous_system));
-		add(MainMenuBar.getPlayMenu(frame, autonomous_system));
-		add(MainMenuBar.getMazeMenu(frame, autonomous_system));
-		add(MainMenuBar.getCarMenu(frame, autonomous_system));
-	}
-
-	private static GuiMenu getFileMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
-		GuiMenu menu = new GuiMenu("File");
-		menu.add(getFileImportMenu(frame, autonomous_system));
-		menu.add(getFileExportMenu(frame, autonomous_system));
-		// menu.add(new JSeparator());
-		// menu.add(new JMenuItem("Export All"));
-		menu.addSeparator();
-		menu.add(new GuiMenuItem("Exit", 'X'));
-		menu.getItem(3).addActionListener(new CloseGuiFrameActionListener(frame));
-		return menu;
-	}
-
-	private static GuiMenu getFileImportMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
-		GuiMenu menu = new GuiMenu("Import");
-		menu.add(new GuiMenuItem("Import Linear Maze", '\0'));
-		menu.getItem(0).addActionListener(new FileIoActionListener(new OpenLinearMazeFileChooser(frame, autonomous_system)));
+	private static GuiMenu getCarMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
+		GuiMenu menu = new GuiMenu("Car");
+		menu.add(new GuiMenuItem("Change to a circular car", '1'));
+		menu.getItem(0).addActionListener(new ChangeCarActionListener(frame, autonomous_system, CircularCar.class));
+		menu.add(new GuiMenuItem("Change to a rectangular car", '2'));
+		menu.getItem(1).addActionListener(new ChangeCarActionListener(frame, autonomous_system, RectangularCar.class));
 		return menu;
 	}
 
@@ -62,15 +45,22 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
-	private static GuiMenu getPlayMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
-		GuiMenu menu = new GuiMenu("Play");
-		menu.add(new GuiMenuItem("Play", 'Z'));
-		menu.getItem(0).addActionListener(new PlayGuiFrameActionListener(frame));
-		menu.add(new GuiMenuItem("Pause", 'X'));
-		menu.getItem(1).addActionListener(new PauseGuiFrameActionListener(frame));
+	private static GuiMenu getFileImportMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
+		GuiMenu menu = new GuiMenu("Import");
+		menu.add(new GuiMenuItem("Import Linear Maze", '\0'));
+		menu.getItem(0).addActionListener(new FileIoActionListener(new OpenLinearMazeFileChooser(frame, autonomous_system)));
+		return menu;
+	}
+
+	private static GuiMenu getFileMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
+		GuiMenu menu = new GuiMenu("File");
+		menu.add(getFileImportMenu(frame, autonomous_system));
+		menu.add(getFileExportMenu(frame, autonomous_system));
+		// menu.add(new JSeparator());
+		// menu.add(new JMenuItem("Export All"));
 		menu.addSeparator();
-		menu.add(new GuiMenuItem("Reset", 'C'));
-		menu.getItem(3).addActionListener(new ResetActionListener(frame, autonomous_system));
+		menu.add(new GuiMenuItem("Exit", 'X'));
+		menu.getItem(3).addActionListener(new CloseGuiFrameActionListener(frame));
 		return menu;
 	}
 
@@ -83,12 +73,22 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
-	private static GuiMenu getCarMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
-		GuiMenu menu = new GuiMenu("Car");
-		menu.add(new GuiMenuItem("Change to a circular car", '1'));
-		menu.getItem(0).addActionListener(new ChangeCarActionListener(frame, autonomous_system, CircularCar.class));
-		menu.add(new GuiMenuItem("Change to a rectangular car", '2'));
-		menu.getItem(1).addActionListener(new ChangeCarActionListener(frame, autonomous_system, RectangularCar.class));
+	private static GuiMenu getPlayMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
+		GuiMenu menu = new GuiMenu("Play");
+		menu.add(new GuiMenuItem("Play", 'Z'));
+		menu.getItem(0).addActionListener(new PlayGuiFrameActionListener(frame));
+		menu.add(new GuiMenuItem("Pause", 'X'));
+		menu.getItem(1).addActionListener(new PauseGuiFrameActionListener(frame));
+		menu.addSeparator();
+		menu.add(new GuiMenuItem("Reset", 'C'));
+		menu.getItem(3).addActionListener(new ResetActionListener(frame, autonomous_system));
 		return menu;
+	}
+
+	MainMenuBar(GuiFrame frame, AutonomousSystem autonomous_system) {
+		add(MainMenuBar.getFileMenu(frame, autonomous_system));
+		add(MainMenuBar.getPlayMenu(frame, autonomous_system));
+		add(MainMenuBar.getMazeMenu(frame, autonomous_system));
+		add(MainMenuBar.getCarMenu(frame, autonomous_system));
 	}
 }

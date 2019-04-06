@@ -57,14 +57,14 @@ class InfoPanel extends GuiPanel {
 	}
 
 	private void setText(JTextField field, double value) {
-		if (value >= autonomous_system.getMaze().getBoundsHypotenuse() * 2.0) {
-			field.setFont(SMALL_FONT);
-			field.setHorizontalAlignment(JTextField.CENTER);
-			field.setText("INFINITY");
-		} else {
+		if (Double.isFinite(value)) {
 			field.setFont(DEFAULT_FONT);
 			field.setHorizontalAlignment(JTextField.TRAILING);
 			field.setText(String.format("%.2f", value));
+		} else {
+			field.setFont(SMALL_FONT);
+			field.setHorizontalAlignment(JTextField.CENTER);
+			field.setText("INFINITY");
 		}
 	}
 }
