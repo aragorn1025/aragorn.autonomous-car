@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
+import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
@@ -60,5 +61,12 @@ public class RectangularCar extends Car {
 	@Override
 	public double getRightSensorOffset() {
 		return Math.min(getLength(), getWidth()) / Math.sqrt(2);
+	}
+
+	/** TODO logic error here */
+	@Override
+	public boolean isTouchLineSegment(LineSegment2D end_line) {
+		double d = end_line.getDistance(getStatus().getLocation());
+		return d * d <= (getLength() * getLength() + getWidth() * getWidth());
 	}
 }

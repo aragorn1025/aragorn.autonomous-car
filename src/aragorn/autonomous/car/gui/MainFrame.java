@@ -43,12 +43,19 @@ public class MainFrame extends GuiFrame {
 
 	@Override
 	protected void run() {
-		boolean toStop = autonomous_system.control();
-		autonomous_system.addCarTrack();
+		int control_code = autonomous_system.control();
 		info_panel.reset();
-		if (toStop) {
-			pause();
-			echo("The car gets ends.", GuiFrame.INFORMATION_MESSAGE);
+		switch (control_code) {
+			case 1:
+				pause();
+				echo("The car gets ends.", GuiFrame.INFORMATION_MESSAGE);
+				break;
+			case -1:
+				pause();
+				echo("The car touches walls.", GuiFrame.ERROR_MESSAGE);
+				break;
+			default:
+				break;
 		}
 	}
 }

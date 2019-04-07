@@ -3,10 +3,9 @@ package aragorn.autonomous.car.object;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.security.InvalidParameterException;
-import aragorn.math.geometry.ConvexQuadrilateral2D;
 import aragorn.math.geometry.Coordinate2D;
+import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
@@ -155,17 +154,7 @@ public abstract class Car implements Cloneable, Paintable {
 		return width;
 	}
 
-	public boolean isInside(ConvexQuadrilateral2D quadrilateral) {
-		Rectangle2D.Double bounds = getBounds();
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				if (!quadrilateral.isSurround(new Point2D.Double(bounds.getX() + i * bounds.getWidth(), bounds.getY() + j * bounds.getHeight()))) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+	public abstract boolean isTouchLineSegment(LineSegment2D end_line);
 
 	public void move(double wheel_angle) {
 		if (!Double.isFinite(wheel_angle))

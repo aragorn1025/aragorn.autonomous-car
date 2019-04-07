@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
+import aragorn.math.geometry.LineSegment2D;
 import aragorn.util.MathVector2D;
 
 public class CircularCar extends Car {
@@ -50,5 +51,10 @@ public class CircularCar extends Car {
 	@Override
 	public double getRightSensorOffset() {
 		return getRadius();
+	}
+
+	@Override
+	public boolean isTouchLineSegment(LineSegment2D end_line) {
+		return end_line.getDistance(getStatus().getLocation()) <= getRadius();
 	}
 }
