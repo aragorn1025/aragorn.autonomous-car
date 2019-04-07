@@ -23,8 +23,8 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 	private ArrayList<Double> right = new ArrayList<>();
 
 	public FuzzyAutonomousSystem(LinearMaze maze, Car car) {
-		setMaze(maze);
 		setCar(car);
+		setMaze(maze);
 	}
 
 	@Override
@@ -242,5 +242,6 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		if (maze == null)
 			throw new NullPointerException();
 		this.maze = maze;
+		this.reset();
 	}
 }
