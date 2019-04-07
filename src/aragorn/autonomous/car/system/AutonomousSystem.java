@@ -1,4 +1,4 @@
-package aragorn.autonomous.car.zold.fuzzy.system;
+package aragorn.autonomous.car.system;
 
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;

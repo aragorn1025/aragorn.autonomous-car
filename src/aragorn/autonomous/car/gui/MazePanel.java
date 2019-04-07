@@ -3,7 +3,7 @@ package aragorn.autonomous.car.gui;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.border.LineBorder;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
+import aragorn.autonomous.car.system.AutonomousSystem;
 import aragorn.gui.GuiPanel;
 import aragorn.math.geometry.Coordinate2D;
 

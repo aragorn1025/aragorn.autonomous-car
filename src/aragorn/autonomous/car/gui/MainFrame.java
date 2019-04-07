@@ -2,10 +2,10 @@ package aragorn.autonomous.car.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import aragorn.autonomous.car.fuzzy.system.FuzzyAutonomousSystem;
 import aragorn.autonomous.car.object.CircularCar;
 import aragorn.autonomous.car.object.DefaultMaze;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
-import aragorn.autonomous.car.zold.fuzzy.system.FuzzyAutonomousSystem;
+import aragorn.autonomous.car.system.AutonomousSystem;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiPanel;
 

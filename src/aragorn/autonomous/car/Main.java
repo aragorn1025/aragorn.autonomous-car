@@ -3,7 +3,7 @@ package aragorn.autonomous.car;
 import aragorn.autonomous.car.gui.MainFrame;
 import aragorn.gui.GuiFrame;
 
-public class Main {
+class Main {
 
 	private final static String TITLE = new String("Computer Simulating Autonomous Car");
 

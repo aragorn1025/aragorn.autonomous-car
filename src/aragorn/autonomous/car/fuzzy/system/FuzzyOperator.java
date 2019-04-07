@@ -1,4 +1,4 @@
-package aragorn.autonomous.car.zold.fuzzy.system;
+package aragorn.autonomous.car.fuzzy.system;
 
 import java.security.InvalidParameterException;
 

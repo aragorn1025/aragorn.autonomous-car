@@ -3,14 +3,13 @@ package aragorn.autonomous.car.object;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.util.MathVector2D;
 
 public class CircularCar extends Car {
 
 	public CircularCar() {
-		this(3, new Point2D.Double(), 90);
+		this(3, new Point2D.Double(), Math.toRadians(90));
 	}
 
 	private CircularCar(double radius, Point2D.Double location, double direction) {

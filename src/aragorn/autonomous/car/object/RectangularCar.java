@@ -3,7 +3,6 @@ package aragorn.autonomous.car.object;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
@@ -11,7 +10,7 @@ import aragorn.util.MathVector2D;
 public class RectangularCar extends Car {
 
 	public RectangularCar() {
-		this(6, 3, new CarStatus(new Point2D.Double(0, 0), 90, 0));
+		this(6, 3, new CarStatus(new Point2D.Double(0, 0), Math.toRadians(90), 0));
 	}
 
 	private RectangularCar(double length, double width, CarStatus status) {

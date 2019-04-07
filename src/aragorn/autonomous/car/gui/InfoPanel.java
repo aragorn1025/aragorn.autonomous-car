@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import aragorn.autonomous.car.zold.fuzzy.system.AutonomousSystem;
+import aragorn.autonomous.car.system.AutonomousSystem;
 import aragorn.gui.GuiPanel;
 
 @SuppressWarnings("serial")

@@ -1,15 +1,10 @@
-package aragorn.autonomous.car.zold.fuzzy.system;
+package aragorn.autonomous.car.fuzzy.system;
 
 import java.util.ArrayList;
-import aragorn.autonomous.car.fuzzy.defuzzifier.PseudoDefuzzifier;
-import aragorn.autonomous.car.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
-import aragorn.autonomous.car.fuzzy.membership.function.HalfTrapezoidal;
-import aragorn.autonomous.car.fuzzy.membership.function.MembershipFunction;
-import aragorn.autonomous.car.fuzzy.membership.function.Trapezoidal;
-import aragorn.autonomous.car.fuzzy.membership.function.Triangular;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.object.LinearMaze;
+import aragorn.autonomous.car.system.AutonomousSystem;
 import aragorn.math.geometry.Polygon2D;
 import aragorn.util.MathUtilities;
 
@@ -54,7 +49,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 				alpha[i][j] = FuzzyOperator.standardTnorms(mu_a(vi).f(x_a), mu_b(vj).f(x_b));
 				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoCenterOfGravityDefuzzifier() {
 				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoMeanOfMaximalDefuzzifier() {
-				PseudoDefuzzifier defuzzifier = new PseudoModifiedMeanOfMaximalDefuzzifier() {
+				PseudoFuzzyDefuzzifier defuzzifier = new PseudoFuzzyDefuzzifier.ModifiedMeanOfMaximal() {
 
 					@Override
 					public double mu(double y) {
@@ -143,23 +138,22 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		return car.isInside(maze.getEndArea());
 	}
 
-	private MembershipFunction mu_a(int i) {
+	private FuzzyMembershipFunction mu_a(int i) {
 		double length = car.getLength();
 		double n = length * 1.0;
 		double f = length * 2.0;
 
 		switch (i) {
 			case 1:
-				return new Trapezoidal(0.0, length * 0.5, n, f);
-			// return new HalfTrapezoidal("-infinity", n, f);
+				return new FuzzyMembershipFunction.Trapezoidal(0.0, length * 0.5, n, f);
 			case 2:
-				return new HalfTrapezoidal(n, f, "+infinity");
+				return new FuzzyMembershipFunction.HalfTrapezoidal(n, f, "+infinity");
 			default:
 				throw new NullPointerException();
 		}
 	}
 
-	private MembershipFunction mu_b(int i) {
+	private FuzzyMembershipFunction mu_b(int i) {
 		double length = car.getLength();
 		double or = length * -1.0;
 		double cr = length * -0.0;
@@ -167,37 +161,37 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 		double ol = length * +1.0;
 		switch (i) {
 			case 1:
-				return new HalfTrapezoidal("-infinity", or, cr);
+				return new FuzzyMembershipFunction.HalfTrapezoidal("-infinity", or, cr);
 			case 2:
-				return new Trapezoidal(or, cr, cl, ol);
+				return new FuzzyMembershipFunction.Trapezoidal(or, cr, cl, ol);
 			case 3:
-				return new HalfTrapezoidal(cr, ol, "+infinity");
+				return new FuzzyMembershipFunction.HalfTrapezoidal(cr, ol, "+infinity");
 			default:
 				throw new NullPointerException();
 		}
 	}
 
-	private MembershipFunction mu_z(int i, int j) {
+	private FuzzyMembershipFunction mu_z(int i, int j) {
 		switch (i) {
 			case 1:
 				switch (j) {
 					case 1:
-						return new HalfTrapezoidal(0, 12, "+infinity");
+						return new FuzzyMembershipFunction.HalfTrapezoidal(0, 12, "+infinity");
 					case 2:
-						return new Triangular(-24, 0, 24);
+						return new FuzzyMembershipFunction.Triangular(-24, 0, 24);
 					case 3:
-						return new HalfTrapezoidal("-infinity", -12, 0);
+						return new FuzzyMembershipFunction.HalfTrapezoidal("-infinity", -12, 0);
 					default:
 						throw new NullPointerException();
 				}
 			case 2:
 				switch (j) {
 					case 1:
-						return new HalfTrapezoidal(0, 24, "+infinity");
+						return new FuzzyMembershipFunction.HalfTrapezoidal(0, 24, "+infinity");
 					case 2:
-						return new Trapezoidal(-12, -6, 6, 12);
+						return new FuzzyMembershipFunction.Trapezoidal(-12, -6, 6, 12);
 					case 3:
-						return new HalfTrapezoidal("-infinity", -24, 0);
+						return new FuzzyMembershipFunction.HalfTrapezoidal("-infinity", -24, 0);
 					default:
 						throw new NullPointerException();
 				}

@@ -157,8 +157,6 @@ public abstract class Car implements Cloneable, Paintable {
 
 	public boolean isInside(ConvexQuadrilateral2D quadrilateral) {
 		Rectangle2D.Double bounds = getBounds();
-		System.out.println(quadrilateral.toString());
-		System.out.println(bounds.toString());
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
 				if (!quadrilateral.isSurround(new Point2D.Double(bounds.getX() + i * bounds.getWidth(), bounds.getY() + j * bounds.getHeight()))) {
@@ -179,9 +177,9 @@ public abstract class Car implements Cloneable, Paintable {
 	}
 
 	public void reset(CarStatus status) {
-		status.getLocation().x = status.getLocation().getX();
-		status.getLocation().y = status.getLocation().getY();
-		status.setDirection(status.getDirection());
-		status.setWheelAngle(status.getWheelAngle());
+		this.status.getLocation().x = status.getLocation().getX();
+		this.status.getLocation().y = status.getLocation().getY();
+		this.status.setDirection(status.getDirection());
+		this.status.setWheelAngle(status.getWheelAngle());
 	}
 }
