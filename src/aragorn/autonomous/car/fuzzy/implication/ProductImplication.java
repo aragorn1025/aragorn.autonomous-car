@@ -1,4 +1,4 @@
-package aragorn.autonomous.car.zold.fuzzy.implication;
+package aragorn.autonomous.car.fuzzy.implication;
 
 import aragorn.autonomous.car.zold.fuzzy.system.FuzzyOperator;
 

@@ -1,11 +1,11 @@
-package aragorn.autonomous.car.zold.fuzzy.defuzzifier;
+package aragorn.autonomous.car.fuzzy.defuzzifier;
 
-public abstract class PseudoCenterOfGravityDefuzzifier implements PseudoDefuzzifierForAutonomousCar {
+public abstract class PseudoCenterOfGravityDefuzzifier extends PseudoDefuzzifier {
 
 	@Override
 	public double deffuzzifier() {
 		double yi, mu, a = 0, b = 0;
-		for (long i = 0; i < getL(); i++) {
+		for (long i = 0; i < i_max; i++) {
 			yi = y(i);
 			mu = mu(yi);
 			a += mu * yi;

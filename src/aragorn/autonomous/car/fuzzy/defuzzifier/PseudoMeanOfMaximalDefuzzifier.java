@@ -1,11 +1,11 @@
-package aragorn.autonomous.car.zold.fuzzy.defuzzifier;
+package aragorn.autonomous.car.fuzzy.defuzzifier;
 
-public abstract class PseudoMeanOfMaximalDefuzzifier implements PseudoDefuzzifierForAutonomousCar {
+public abstract class PseudoMeanOfMaximalDefuzzifier extends PseudoDefuzzifier {
 
 	@Override
 	public double deffuzzifier() {
-		double yi, mu, height = 0, n = 0, sigma = 0;
-		for (long i = 0; i < getL(); i++) {
+		double yi, mu, height = Double.NEGATIVE_INFINITY, n = 0, sigma = 0;
+		for (long i = 0; i < i_max; i++) {
 			yi = y(i);
 			mu = mu(yi);
 			if (height < mu) {

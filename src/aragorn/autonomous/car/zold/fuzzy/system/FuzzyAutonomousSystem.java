@@ -1,6 +1,8 @@
 package aragorn.autonomous.car.zold.fuzzy.system;
 
 import java.util.ArrayList;
+import aragorn.autonomous.car.fuzzy.defuzzifier.PseudoDefuzzifier;
+import aragorn.autonomous.car.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
 import aragorn.autonomous.car.fuzzy.membership.function.HalfTrapezoidal;
 import aragorn.autonomous.car.fuzzy.membership.function.MembershipFunction;
 import aragorn.autonomous.car.fuzzy.membership.function.Trapezoidal;
@@ -8,8 +10,6 @@ import aragorn.autonomous.car.fuzzy.membership.function.Triangular;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.object.LinearMaze;
-import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoDefuzzifierForAutonomousCar;
-import aragorn.autonomous.car.zold.fuzzy.defuzzifier.PseudoModifiedMeanOfMaximalDefuzzifier;
 import aragorn.math.geometry.Polygon2D;
 import aragorn.util.MathUtilities;
 
@@ -54,7 +54,7 @@ public class FuzzyAutonomousSystem implements AutonomousSystem {
 				alpha[i][j] = FuzzyOperator.standardTnorms(mu_a(vi).f(x_a), mu_b(vj).f(x_b));
 				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoCenterOfGravityDefuzzifier() {
 				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoMeanOfMaximalDefuzzifier() {
-				PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoModifiedMeanOfMaximalDefuzzifier() {
+				PseudoDefuzzifier defuzzifier = new PseudoModifiedMeanOfMaximalDefuzzifier() {
 
 					@Override
 					public double mu(double y) {

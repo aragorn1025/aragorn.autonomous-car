@@ -35,7 +35,7 @@ public class Trapezoidal implements MembershipFunction {
 			return 0;
 		if (x >= b && x <= c)
 			return 1;
-		if (x > a && a < b)
+		if (x > a && x < b)
 			return (x - a) / (b - a);
 		if (x > c && x < d)
 			return (d - x) / (d - c);
