@@ -10,7 +10,6 @@ public class FuzzyAutonomousSystem extends AutonomousSystem {
 		super(maze, car);
 	}
 
-	/** @deprecated */
 	@Override
 	public int control() {
 		double x_a = detectFront();
@@ -23,8 +22,8 @@ public class FuzzyAutonomousSystem extends AutonomousSystem {
 			for (int j = 0; j < alpha[i].length; j++) {
 				int vi = i + 1, vj = j + 1;
 				alpha[i][j] = FuzzyOperator.standardTnorms(mu_a(vi).f(x_a), mu_b(vj).f(x_b));
-				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoCenterOfGravityDefuzzifier() {
-				// PseudoDefuzzifierForAutonomousCar defuzzifier = new PseudoMeanOfMaximalDefuzzifier() {
+				// PseudoFuzzyDefuzzifier defuzzifier = new PseudoFuzzyDefuzzifier.CenterOfGravity() {
+				// PseudoFuzzyDefuzzifier defuzzifier = new PseudoFuzzyDefuzzifier.MeanOfMaximal() {
 				PseudoFuzzyDefuzzifier defuzzifier = new PseudoFuzzyDefuzzifier.ModifiedMeanOfMaximal() {
 
 					@Override
