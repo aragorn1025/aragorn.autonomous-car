@@ -21,23 +21,19 @@ public class FuzzyOperator {
 	}
 
 	public static double drasticProductTnorms(double mu_a, double mu_b) {
-		if (mu_b == 1) {
+		if (mu_b == 1)
 			return mu_a;
-		} else if (mu_a == 1) {
+		if (mu_a == 1)
 			return mu_b;
-		} else {
-			return 0;
-		}
+		return 0;
 	}
 
 	public static double drasticSumTconorms(double mu_a, double mu_b) {
-		if (mu_b == 0) {
+		if (mu_b == 0)
 			return mu_a;
-		} else if (mu_a == 0) {
+		if (mu_a == 0)
 			return mu_b;
-		} else {
-			return 1;
-		}
+		return 1;
 	}
 
 	public static double maximumTconorms(double mu_a, double mu_b) {
@@ -65,50 +61,38 @@ public class FuzzyOperator {
 	}
 
 	public static double SugenosComplement(double mu_a, double lambda) {
-		if (lambda < -1) {
+		if (lambda < -1)
 			throw new InvalidParameterException("Lambda must in the range [-1, +INFINITY).");
-		} else {
-			return (1 - mu_a) / (1 + lambda * mu_a);
-		}
+		return (1 - mu_a) / (1 + lambda * mu_a);
 	}
 
 	public static double SugenosTconorms(double mu_a, double mu_b, double lambda) {
-		if (lambda < -1) {
+		if (lambda < -1)
 			throw new InvalidParameterException("Lambda must in the range [-1, +INFINITY).");
-		} else {
-			return Math.min(1, mu_a + mu_b - lambda * mu_a * mu_b);
-		}
+		return Math.min(1, mu_a + mu_b - lambda * mu_a * mu_b);
 	}
 
 	public static double SugenosTnorms(double mu_a, double mu_b, double lambda) {
-		if (lambda < -1) {
+		if (lambda < -1)
 			throw new InvalidParameterException("Lambda must in the range [-1, +INFINITY).");
-		} else {
-			return Math.max(0, (lambda + 1) * (mu_a + mu_b - 1) - lambda * mu_a * mu_b);
-		}
+		return Math.max(0, (lambda + 1) * (mu_a + mu_b - 1) - lambda * mu_a * mu_b);
 	}
 
 	public static double YagersComplement(double mu_a, double omega) {
-		if (omega <= 0) {
+		if (omega <= 0)
 			throw new InvalidParameterException("Omega must in the range (0, +INFINITY).");
-		} else {
-			return Math.pow(1 - Math.pow(mu_a, omega), 1.0 / omega);
-		}
+		return Math.pow(1 - Math.pow(mu_a, omega), 1.0 / omega);
 	}
 
 	public static double YagersTconorms(double mu_a, double mu_b, double omega) {
-		if (omega <= 0) {
+		if (omega <= 0)
 			throw new InvalidParameterException("Omega must in the range (0, +INFINITY).");
-		} else {
-			return Math.min(1, Math.pow(Math.pow(mu_a, omega) + Math.pow(mu_b, omega), 1 / omega));
-		}
+		return Math.min(1, Math.pow(Math.pow(mu_a, omega) + Math.pow(mu_b, omega), 1 / omega));
 	}
 
 	public static double YagersTnorms(double mu_a, double mu_b, double omega) {
-		if (omega <= 0) {
+		if (omega <= 0)
 			throw new InvalidParameterException("Omega must in the range (0, +INFINITY).");
-		} else {
-			return 1 - Math.min(1, Math.pow(Math.pow(1 - mu_a, omega) + Math.pow(1 - mu_b, omega), 1 / omega));
-		}
+		return 1 - Math.min(1, Math.pow(Math.pow(1 - mu_a, omega) + Math.pow(1 - mu_b, omega), 1 / omega));
 	}
 }
