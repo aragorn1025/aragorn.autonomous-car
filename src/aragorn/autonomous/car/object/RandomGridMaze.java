@@ -122,7 +122,8 @@ public class RandomGridMaze extends LinearMaze {
 		super();
 		RandomGridMaze.check(maze_width, maze_height, path_width, point_pair_number);
 		Polyline2D path = RandomGridMaze.getPath(maze_width, maze_height, path_width, point_pair_number);
-		wall = RandomGridMaze.getWall(path, path_width);
+		car_initial_status = new CarStatus(new Point2D.Double(0, 0), Math.toRadians(90), 0);
 		end_line = RandomGridMaze.getEndLine(path, path_width);
+		wall = RandomGridMaze.getWall(path, path_width);
 	}
 }

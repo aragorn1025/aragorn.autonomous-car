@@ -4,8 +4,6 @@ import java.security.InvalidParameterException;
 
 public interface FuzzyMembershipFunction {
 
-	public double f(double x);
-
 	public static class HalfTrapezoidal implements FuzzyMembershipFunction {
 
 		private double a;
@@ -112,4 +110,6 @@ public interface FuzzyMembershipFunction {
 			return function.f(x);
 		}
 	}
+
+	public double f(double x);
 }

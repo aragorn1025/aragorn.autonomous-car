@@ -18,7 +18,7 @@ public class LinearMaze implements Paintable {
 
 	protected LineSegment2D end_line;
 
-	private CarStatus car_initial_status;
+	protected CarStatus car_initial_status;
 
 	protected LinearMaze() {
 		this(null, null, null);
