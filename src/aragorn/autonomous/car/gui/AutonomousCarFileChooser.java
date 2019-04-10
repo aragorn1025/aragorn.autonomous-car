@@ -149,8 +149,8 @@ public class AutonomousCarFileChooser {
 					output.printf("%.7f,%.7f,%.7f%n", car_status.getLocation().getX(), car_status.getLocation().getY(), car_status.getDirectionOutput());
 
 					LineSegment2D end_line = autonomous_system.getMaze().getEndLine();
-					output.printf("%.7f,%.7f%n", end_line.getPoints()[0].getX(), end_line.getPoints()[0].getY());
-					output.printf("%.7f,%.7f%n", end_line.getPoints()[1].getX(), end_line.getPoints()[1].getY());
+					output.printf("%.7f,%.7f%n", end_line.getPoint(0).getX(), end_line.getPoint(0).getY());
+					output.printf("%.7f,%.7f%n", end_line.getPoint(1).getX(), end_line.getPoint(1).getY());
 
 					Polygon2D wall = autonomous_system.getMaze().getWall();
 					for (int i = 0; i < wall.getPointNumber() - 1; i++) {
