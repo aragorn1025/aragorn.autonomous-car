@@ -27,14 +27,12 @@ class InfoPanel extends GuiPanel {
 
 		// initial
 		for (int i = 0; i < TITLES.length; i++) {
-			// initial label
 			JLabel[] labels = new JLabel[TITLES.length];
 			labels[i] = new JLabel(TITLES[i]);
 			labels[i].setFont(SMALL_FONT);
 			labels[i].setHorizontalAlignment(JTextField.TRAILING);
 			addComponent(labels[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
-			// initial field
 			fields[i] = new JTextField();
 			fields[i].setColumns(5);
 			fields[i].setEditable(false);
@@ -42,11 +40,10 @@ class InfoPanel extends GuiPanel {
 			addComponent(fields[i], 1, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 		}
 
-		// reset
 		reset();
 	}
 
-	public void reset() {
+	void reset() {
 		setText(fields[0], autonomous_system.getCar().getStatus().getLocation().getX());
 		setText(fields[1], autonomous_system.getCar().getStatus().getLocation().getY());
 		setText(fields[2], autonomous_system.getCar().getStatus().getDirectionOutput());

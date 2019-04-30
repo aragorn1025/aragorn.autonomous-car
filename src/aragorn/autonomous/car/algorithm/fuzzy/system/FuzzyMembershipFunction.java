@@ -1,10 +1,10 @@
-package aragorn.autonomous.car.fuzzy.system;
+package aragorn.autonomous.car.algorithm.fuzzy.system;
 
 import java.security.InvalidParameterException;
 
-public interface FuzzyMembershipFunction {
+interface FuzzyMembershipFunction {
 
-	public static class HalfTrapezoidal implements FuzzyMembershipFunction {
+	static class HalfTrapezoidal implements FuzzyMembershipFunction {
 
 		private double a;
 
@@ -12,7 +12,7 @@ public interface FuzzyMembershipFunction {
 
 		private double c;
 
-		public HalfTrapezoidal(double a, double b, String c) {
+		HalfTrapezoidal(double a, double b, String c) {
 			if (!c.toLowerCase().equals("+infinity") && !c.toLowerCase().equals("+inf"))
 				throw new InvalidParameterException("The third parameter should be \"+infinity\", \"+inf\" or real number.");
 			if (a > b)
@@ -22,7 +22,7 @@ public interface FuzzyMembershipFunction {
 			this.c = Double.POSITIVE_INFINITY;
 		}
 
-		public HalfTrapezoidal(String a, double b, double c) {
+		HalfTrapezoidal(String a, double b, double c) {
 			if (!a.toLowerCase().equals("-infinity") && !a.toLowerCase().equals("-inf"))
 				throw new InvalidParameterException("The first parameter should be \"-infinity\", \"-inf\" or real number.");
 			if (b > c)
@@ -54,7 +54,7 @@ public interface FuzzyMembershipFunction {
 		}
 	}
 
-	public static class Trapezoidal implements FuzzyMembershipFunction {
+	static class Trapezoidal implements FuzzyMembershipFunction {
 
 		private double a;
 
@@ -64,7 +64,7 @@ public interface FuzzyMembershipFunction {
 
 		private double d;
 
-		public Trapezoidal(double a, double b, double c, double d) {
+		Trapezoidal(double a, double b, double c, double d) {
 			if (a > b)
 				throw new InvalidParameterException("The first parameter should be smaller than the second parameter.");
 			if (b > c)
@@ -95,11 +95,11 @@ public interface FuzzyMembershipFunction {
 		}
 	}
 
-	public static class Triangular implements FuzzyMembershipFunction {
+	static class Triangular implements FuzzyMembershipFunction {
 
 		private Trapezoidal function;
 
-		public Triangular(double a, double b, double c) {
+		Triangular(double a, double b, double c) {
 			if (b > c)
 				throw new InvalidParameterException("The second parameter should be smaller than the third parameter.");
 			function = new Trapezoidal(a, b, b, c);

@@ -2,18 +2,45 @@ package aragorn.autonomous.car.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import aragorn.autonomous.car.algorithm.Algorithm;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.autonomous.car.system.AutonomousSystem;
 import aragorn.gui.GuiFrame;
 
-public abstract class AutonomousCarActionListener implements ActionListener {
+abstract class AutonomousCarActionListener implements ActionListener {
 
-	public static class ChangeCar extends AutonomousCarActionListener {
+	static class ChangeAlgorithm extends AutonomousCarActionListener {
+
+		private Class<? extends Algorithm> clazz;
+
+		ChangeAlgorithm(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends Algorithm> clazz) {
+			super(frame, autonomous_system);
+			this.clazz = clazz;
+		}
+
+		@SuppressWarnings("unlikely-arg-type")
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			try {
+				getFrame().pause();
+				if (!getAutonomousSystem().getAlgorithm().equals(clazz)) {
+					getAutonomousSystem().setAlgorithm(clazz.newInstance());
+				}
+				getAutonomousSystem().reset();
+				getFrame().setTitle(getAutonomousSystem().getAlgorithm().getName());
+				getFrame().repaint();
+			} catch (InstantiationException | IllegalAccessException exception) {
+				exception.printStackTrace();
+			}
+		}
+	}
+
+	static class ChangeCar extends AutonomousCarActionListener {
 
 		private Class<? extends Car> clazz;
 
-		public ChangeCar(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends Car> clazz) {
+		ChangeCar(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends Car> clazz) {
 			super(frame, autonomous_system);
 			this.clazz = clazz;
 		}
@@ -21,23 +48,23 @@ public abstract class AutonomousCarActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			try {
-				frame.pause();
-				if (autonomous_system.getCar().getClass() != clazz) {
-					autonomous_system.setCar(clazz.newInstance());
+				getFrame().pause();
+				if (getAutonomousSystem().getCar().getClass() != clazz) {
+					getAutonomousSystem().setCar(clazz.newInstance());
 				}
-				autonomous_system.reset();
-				frame.repaint();
+				getAutonomousSystem().reset();
+				getFrame().repaint();
 			} catch (InstantiationException | IllegalAccessException exception) {
 				exception.printStackTrace();
 			}
 		}
 	}
 
-	public static class ChangeMaze extends AutonomousCarActionListener {
+	static class ChangeMaze extends AutonomousCarActionListener {
 
 		private Class<? extends LinearMaze> clazz;
 
-		public ChangeMaze(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends LinearMaze> clazz) {
+		ChangeMaze(GuiFrame frame, AutonomousSystem autonomous_system, Class<? extends LinearMaze> clazz) {
 			super(frame, autonomous_system);
 			this.clazz = clazz;
 		}
@@ -45,36 +72,44 @@ public abstract class AutonomousCarActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			try {
-				frame.pause();
-				autonomous_system.setMaze(clazz.newInstance());
-				autonomous_system.reset();
-				frame.repaint();
+				getFrame().pause();
+				getAutonomousSystem().setMaze(clazz.newInstance());
+				getAutonomousSystem().reset();
+				getFrame().repaint();
 			} catch (InstantiationException | IllegalAccessException exception) {
 				exception.printStackTrace();
 			}
 		}
 	}
 
-	public static class Reset extends AutonomousCarActionListener {
+	static class Reset extends AutonomousCarActionListener {
 
-		public Reset(GuiFrame frame, AutonomousSystem autonomous_system) {
+		Reset(GuiFrame frame, AutonomousSystem autonomous_system) {
 			super(frame, autonomous_system);
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			frame.pause();
-			autonomous_system.reset();
-			frame.repaint();
+			getFrame().pause();
+			getAutonomousSystem().reset();
+			getFrame().repaint();
 		}
 	}
 
-	protected GuiFrame frame;
+	private GuiFrame frame;
 
-	protected AutonomousSystem autonomous_system;
+	private AutonomousSystem autonomous_system;
 
 	protected AutonomousCarActionListener(GuiFrame frame, AutonomousSystem autonomous_system) {
 		this.frame = frame;
 		this.autonomous_system = autonomous_system;
+	}
+
+	protected AutonomousSystem getAutonomousSystem() {
+		return autonomous_system;
+	}
+
+	protected GuiFrame getFrame() {
+		return frame;
 	}
 }

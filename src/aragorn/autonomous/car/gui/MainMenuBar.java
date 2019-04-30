@@ -1,6 +1,8 @@
 package aragorn.autonomous.car.gui;
 
 import javax.swing.JMenuBar;
+import aragorn.autonomous.car.algorithm.fuzzy.system.FuzzySystem;
+import aragorn.autonomous.car.algorithm.genetic.algorithm.GeneticAlgorithm;
 import aragorn.autonomous.car.object.CircularCar;
 import aragorn.autonomous.car.object.DefaultMaze;
 import aragorn.autonomous.car.object.RandomGridMaze;
@@ -15,6 +17,15 @@ import aragorn.gui.action.listener.PlayGuiFrameActionListener;
 
 @SuppressWarnings("serial")
 class MainMenuBar extends JMenuBar {
+
+	private static GuiMenu getAlgorithmMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
+		GuiMenu menu = new GuiMenu("Algorithm");
+		menu.add(new GuiMenuItem("Fuzzy System", '1'));
+		menu.getItem(0).addActionListener(new AutonomousCarActionListener.ChangeAlgorithm(frame, autonomous_system, FuzzySystem.class));
+		menu.add(new GuiMenuItem("Genetic Algorithm", '2'));
+		menu.getItem(1).addActionListener(new AutonomousCarActionListener.ChangeAlgorithm(frame, autonomous_system, GeneticAlgorithm.class));
+		return menu;
+	}
 
 	private static GuiMenu getCarMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Car");
@@ -65,6 +76,13 @@ class MainMenuBar extends JMenuBar {
 		return menu;
 	}
 
+	private static GuiMenu getObjectMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
+		GuiMenu menu = new GuiMenu("Object");
+		menu.add(MainMenuBar.getCarMenu(frame, autonomous_system));
+		menu.add(MainMenuBar.getMazeMenu(frame, autonomous_system));
+		return menu;
+	}
+
 	private static GuiMenu getPlayMenu(GuiFrame frame, AutonomousSystem autonomous_system) {
 		GuiMenu menu = new GuiMenu("Play");
 		menu.add(new GuiMenuItem("Play", 'Z'));
@@ -79,8 +97,8 @@ class MainMenuBar extends JMenuBar {
 
 	MainMenuBar(GuiFrame frame, AutonomousSystem autonomous_system) {
 		add(MainMenuBar.getFileMenu(frame, autonomous_system));
+		add(MainMenuBar.getAlgorithmMenu(frame, autonomous_system));
 		add(MainMenuBar.getPlayMenu(frame, autonomous_system));
-		add(MainMenuBar.getMazeMenu(frame, autonomous_system));
-		add(MainMenuBar.getCarMenu(frame, autonomous_system));
+		add(MainMenuBar.getObjectMenu(frame, autonomous_system));
 	}
 }

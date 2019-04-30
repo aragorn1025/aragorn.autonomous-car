@@ -1,19 +1,28 @@
-package aragorn.autonomous.car.fuzzy.system;
+package aragorn.autonomous.car.algorithm.fuzzy.system;
 
-import aragorn.autonomous.car.object.Car;
-import aragorn.autonomous.car.object.LinearMaze;
-import aragorn.autonomous.car.system.AutonomousSystem;
+import aragorn.autonomous.car.algorithm.Algorithm;
 
-public class FuzzyAutonomousSystem extends AutonomousSystem {
+public class FuzzySystem implements Algorithm {
 
-	public FuzzyAutonomousSystem(LinearMaze maze, Car car) {
-		super(maze, car);
+	private double p0;
+
+	public FuzzySystem() {
+		this(6);
+	}
+
+	private FuzzySystem(double p0) {
+		this.p0 = p0;
 	}
 
 	@Override
-	public int control() {
-		double x_a = detectFront();
-		double x_b = detectRight() - detectLeft();
+	public String getName() {
+		return "Fuzzy System";
+	}
+
+	@Override
+	public double getOutput(double detect_left, double detect_front, double detect_right) {
+		double x_a = detect_front;
+		double x_b = detect_right - detect_left;
 		double[][] alpha = new double[2][3];
 		double[][] z = new double[2][3];
 		double z_star_a = 0;
@@ -37,26 +46,19 @@ public class FuzzyAutonomousSystem extends AutonomousSystem {
 			}
 		}
 		if (z_star_b == 0) {
-			getCar().move(0);
+			return 0;
 		} else {
-			getCar().move(z_star_a / z_star_b);
+			return z_star_a / z_star_b;
 		}
-		addCarTrack();
-		if (isTouchWall())
-			return -1;
-		if (isReachEnd())
-			return 1;
-		return 0;
 	}
 
 	private FuzzyMembershipFunction mu_a(int i) {
-		double length = getCar().getLength();
-		double n = length * 1.0;
-		double f = length * 2.0;
+		double n = p0 * 1.0;
+		double f = p0 * 2.0;
 
 		switch (i) {
 			case 1:
-				return new FuzzyMembershipFunction.Trapezoidal(0.0, length * 0.5, n, f);
+				return new FuzzyMembershipFunction.Trapezoidal(0.0, p0 * 0.5, n, f);
 			case 2:
 				return new FuzzyMembershipFunction.HalfTrapezoidal(n, f, "+infinity");
 			default:
@@ -65,11 +67,10 @@ public class FuzzyAutonomousSystem extends AutonomousSystem {
 	}
 
 	private FuzzyMembershipFunction mu_b(int i) {
-		double length = getCar().getLength();
-		double or = length * -1.0;
-		double cr = length * -0.0;
-		double cl = length * +0.0;
-		double ol = length * +1.0;
+		double or = p0 * -1.0;
+		double cr = p0 * -0.0;
+		double cl = p0 * +0.0;
+		double ol = p0 * +1.0;
 		switch (i) {
 			case 1:
 				return new FuzzyMembershipFunction.HalfTrapezoidal("-infinity", or, cr);

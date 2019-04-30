@@ -32,7 +32,7 @@ class MazePanel extends GuiPanel {
 		autonomous_system.getMaze().draw(g, c);
 	}
 
-	public void reset() {
+	void reset() {
 		autonomous_system.reset();
 		repaint();
 	}

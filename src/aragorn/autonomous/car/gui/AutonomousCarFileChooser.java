@@ -18,13 +18,13 @@ import aragorn.math.geometry.Polygon2D;
 import aragorn.math.geometry.Polyline2D;
 
 @SuppressWarnings("serial")
-public class AutonomousCarFileChooser {
+class AutonomousCarFileChooser {
 
-	public static class Open extends GuiFileChooser.Open {
+	static class Open extends GuiFileChooser.Open {
 
-		public static class LinearMaze extends AutonomousCarFileChooser.Open {
+		static class LinearMaze extends AutonomousCarFileChooser.Open {
 
-			public LinearMaze(GuiFrame parent, AutonomousSystem autonomous_system) {
+			LinearMaze(GuiFrame parent, AutonomousSystem autonomous_system) {
 				super(parent, autonomous_system);
 				setDialogTitle("Open linear maze file...");
 			}
@@ -49,7 +49,7 @@ public class AutonomousCarFileChooser {
 					}
 
 					input.close();
-					autonomous_system.setMaze(new aragorn.autonomous.car.object.LinearMaze(car_initial_status, end_line, new Polygon2D(wall)));
+					getAutonomousSystem().setMaze(new aragorn.autonomous.car.object.LinearMaze(car_initial_status, end_line, new Polygon2D(wall)));
 				} catch (FileNotFoundException | NullPointerException exception) {
 					parent.echo("Unknown error: " + exception.toString(), GuiFrame.ERROR_MESSAGE);
 					return;
@@ -62,7 +62,7 @@ public class AutonomousCarFileChooser {
 			}
 		}
 
-		protected AutonomousSystem autonomous_system;
+		private AutonomousSystem autonomous_system;
 
 		private Open(GuiFrame parent, AutonomousSystem autonomous_system) {
 			super(parent);
@@ -71,13 +71,17 @@ public class AutonomousCarFileChooser {
 			setCurrentDirectory(GuiFileChooser.USER_DESKTOP);
 			setFileFilter(new FileNameExtensionFilter("text file", "txt"));
 		}
+
+		protected AutonomousSystem getAutonomousSystem() {
+			return autonomous_system;
+		}
 	}
 
-	public static abstract class Save extends GuiFileChooser.Save {
+	static abstract class Save extends GuiFileChooser.Save {
 
-		public static class CarTrack4D extends AutonomousCarFileChooser.Save {
+		static class CarTrack4D extends AutonomousCarFileChooser.Save {
 
-			public CarTrack4D(GuiFrame parent, AutonomousSystem autonomous_system) {
+			CarTrack4D(GuiFrame parent, AutonomousSystem autonomous_system) {
 				super(parent, autonomous_system);
 				setDialogTitle("Save car track 4D file...");
 			}
@@ -102,9 +106,9 @@ public class AutonomousCarFileChooser {
 			}
 		}
 
-		public static class CarTrack6D extends AutonomousCarFileChooser.Save {
+		static class CarTrack6D extends AutonomousCarFileChooser.Save {
 
-			public CarTrack6D(GuiFrame parent, AutonomousSystem autonomous_system) {
+			CarTrack6D(GuiFrame parent, AutonomousSystem autonomous_system) {
 				super(parent, autonomous_system);
 				setDialogTitle("Save car track 6D file...");
 			}
@@ -131,9 +135,9 @@ public class AutonomousCarFileChooser {
 			}
 		}
 
-		public static class LinearMaze extends AutonomousCarFileChooser.Save {
+		static class LinearMaze extends AutonomousCarFileChooser.Save {
 
-			public LinearMaze(GuiFrame parent, AutonomousSystem autonomous_system) {
+			LinearMaze(GuiFrame parent, AutonomousSystem autonomous_system) {
 				super(parent, autonomous_system);
 				setDialogTitle("Save linear maze file...");
 			}

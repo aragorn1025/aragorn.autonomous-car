@@ -1,13 +1,14 @@
 package aragorn.autonomous.car.system;
 
 import java.util.ArrayList;
+import aragorn.autonomous.car.algorithm.Algorithm;
 import aragorn.autonomous.car.object.Car;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.autonomous.car.object.LinearMaze;
 import aragorn.math.geometry.Polygon2D;
 import aragorn.util.MathUtilities;
 
-public abstract class AutonomousSystem {
+public class AutonomousSystem {
 
 	private LinearMaze maze;
 
@@ -21,7 +22,10 @@ public abstract class AutonomousSystem {
 
 	private ArrayList<Double> right = new ArrayList<>();
 
-	public AutonomousSystem(LinearMaze maze, Car car) {
+	private Algorithm algorithm;
+
+	public AutonomousSystem(Algorithm algorithm, LinearMaze maze, Car car) {
+		setAlgorithm(algorithm);
 		setCar(car);
 		setMaze(maze);
 	}
@@ -33,7 +37,16 @@ public abstract class AutonomousSystem {
 		right.add(detectRight());
 	}
 
-	public abstract int control();
+	public ControlCode control() {
+		double angle = getAlgorithm().getOutput(detectLeft(), detectFront(), detectRight());
+		getCar().move(angle);
+		addCarTrack();
+		if (isTouchWall())
+			return ControlCode.TOUCHES_WALL;
+		if (isReachEnd())
+			return ControlCode.REACHES_END;
+		return ControlCode.RUNNING;
+	}
 
 	public double detect(double angle) {
 		double val = Double.POSITIVE_INFINITY;
@@ -77,6 +90,10 @@ public abstract class AutonomousSystem {
 
 	public double detectRight() {
 		return detect(-45) - getCar().getRightSensorOffset();
+	}
+
+	public Algorithm getAlgorithm() {
+		return algorithm;
 	}
 
 	public Car getCar() {
@@ -127,6 +144,12 @@ public abstract class AutonomousSystem {
 		addCarTrack();
 	}
 
+	public void setAlgorithm(Algorithm algorithm) {
+		if (algorithm == null)
+			throw new NullPointerException("The algorithm should not be null.");
+		this.algorithm = algorithm;
+	}
+
 	/**
 	 * Set the car reference.
 	 * 
@@ -139,7 +162,7 @@ public abstract class AutonomousSystem {
 	 */
 	public void setCar(Car car) {
 		if (car == null)
-			throw new NullPointerException();
+			throw new NullPointerException("The car should not be null.");
 		if (car.getClass().getSuperclass() != Car.class)
 			throw new Error("Error class for setCar(Car).");
 		this.car = car;
@@ -155,7 +178,7 @@ public abstract class AutonomousSystem {
 	 */
 	public void setMaze(LinearMaze maze) {
 		if (maze == null)
-			throw new NullPointerException();
+			throw new NullPointerException("The maze should not be null.");
 		this.maze = maze;
 		this.reset();
 	}

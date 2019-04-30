@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import aragorn.gui.GuiFileChooser;
 
-public class FileIoActionListener implements ActionListener {
+class FileIoActionListener implements ActionListener {
 
 	private GuiFileChooser file_chooser;
 
-	public FileIoActionListener(GuiFileChooser file_chooser) {
+	FileIoActionListener(GuiFileChooser file_chooser) {
 		this.file_chooser = file_chooser;
 	}
 

@@ -1,4 +1,4 @@
-package aragorn.autonomous.car.fuzzy.system;
+package aragorn.autonomous.car.algorithm.fuzzy.system;
 
 import aragorn.autonomous.car.object.CarStatus;
 
@@ -9,7 +9,7 @@ abstract class PseudoFuzzyDefuzzifier {
 		@Override
 		public double deffuzzifier() {
 			double yi, mu, a = 0, b = 0;
-			for (long i = 0; i < i_max; i++) {
+			for (long i = 0; i < getIMax(); i++) {
 				yi = y(i);
 				mu = mu(yi);
 				a += mu * yi;
@@ -24,7 +24,7 @@ abstract class PseudoFuzzyDefuzzifier {
 		@Override
 		public double deffuzzifier() {
 			double yi, mu, height = Double.NEGATIVE_INFINITY, n = 0, sigma = 0;
-			for (long i = 0; i < i_max; i++) {
+			for (long i = 0; i < getIMax(); i++) {
 				yi = y(i);
 				mu = mu(yi);
 				if (height < mu) {
@@ -44,8 +44,8 @@ abstract class PseudoFuzzyDefuzzifier {
 
 		@Override
 		public double deffuzzifier() {
-			double yi, mu, height = Double.NEGATIVE_INFINITY, max_mu_y_min = y_min, max_mu_y_max = y_min;
-			for (long i = 0; i < i_max; i++) {
+			double yi, mu, height = Double.NEGATIVE_INFINITY, max_mu_y_min = getYMin(), max_mu_y_max = getYMin();
+			for (long i = 0; i < getIMax(); i++) {
 				yi = y(i);
 				mu = mu(yi);
 				if (height < mu) {
@@ -60,11 +60,11 @@ abstract class PseudoFuzzyDefuzzifier {
 		}
 	}
 
-	protected long i_max;
+	private long i_max;
 
-	protected double y_max;
+	private double y_max;
 
-	protected double y_min;
+	private double y_min;
 
 	protected PseudoFuzzyDefuzzifier() {
 		this(Math.toDegrees(CarStatus.MIN_WHEEL_ANGLE), Math.toDegrees(CarStatus.MAX_WHEEL_ANGLE),
@@ -77,7 +77,19 @@ abstract class PseudoFuzzyDefuzzifier {
 		this.i_max = i_max;
 	}
 
-	public abstract double deffuzzifier();
+	protected abstract double deffuzzifier();
+
+	protected long getIMax() {
+		return i_max;
+	}
+
+	protected double getYMax() {
+		return y_max;
+	}
+
+	protected double getYMin() {
+		return y_min;
+	}
 
 	protected abstract double mu(double y);
 
