@@ -4,13 +4,17 @@ import aragorn.util.MathVector;
 
 public abstract class NeuralNetwork {
 
-	protected NeuralLayer[] neural_layers;
+	private NeuralLayer[] neural_layers;
 
 	protected NeuralNetwork(int layer_number) {
 		neural_layers = new NeuralLayer[layer_number];
 	}
 
-	public int getNeuralLayerNumber() {
+	protected NeuralLayer getNeuralLayer(int i) {
+		return neural_layers[i];
+	}
+
+	protected int getNeuralLayerNumber() {
 		return neural_layers.length;
 	}
 
@@ -28,6 +32,11 @@ public abstract class NeuralNetwork {
 		}
 	}
 
+	protected void setNeuralLayer(int i, NeuralLayer neural_layer) {
+		neural_layers[i] = neural_layer;
+	}
+
+	@Override
 	public String toString() {
 		String val = "";
 		for (NeuralLayer layer : neural_layers) {

@@ -4,17 +4,21 @@ import aragorn.util.MathVector;
 
 public abstract class NeuralLayer {
 
-	protected Neuron[] neurons;
+	private Neuron[] neurons;
 
 	protected NeuralLayer(int neuron_number) {
 		neurons = new Neuron[neuron_number];
 	}
 
-	public int getNeuronNumber() {
+	protected Neuron getNeuron(int i) {
+		return neurons[i];
+	}
+
+	protected int getNeuronNumber() {
 		return neurons.length;
 	}
 
-	public MathVector getOutput(MathVector input_vector) {
+	MathVector getOutput(MathVector input_vector) {
 		MathVector val = new MathVector(getNeuronNumber());
 		for (int i = 0; i < getNeuronNumber(); i++) {
 			val.setComponent(i, neurons[i].getOutput(input_vector));
@@ -22,12 +26,17 @@ public abstract class NeuralLayer {
 		return val;
 	}
 
-	public void randomizeWeight() {
+	void randomizeWeight() {
 		for (Neuron neuron : neurons) {
-			neuron.randomizeWeight();
+			neuron.randomizeWeights();
 		}
 	}
 
+	protected void setNeuron(int i, Neuron neuron) {
+		this.neurons[i] = neuron;
+	}
+
+	@Override
 	public String toString() {
 		String val = "";
 		for (Neuron neuron : neurons) {

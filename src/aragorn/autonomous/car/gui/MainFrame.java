@@ -47,7 +47,7 @@ public class MainFrame extends GuiFrame {
 
 	@Override
 	protected void run() {
-		ControlCode control_code = autonomous_system.control();
+		ControlCode control_code = autonomous_system.run();
 		info_panel.reset();
 		switch (control_code) {
 			case REACHES_END:

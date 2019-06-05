@@ -1,6 +1,8 @@
 package aragorn.autonomous.car.algorithm;
 
 public interface Algorithm {
+	
+	public void train(int epoches);
 
 	public String getName();
 	

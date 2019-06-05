@@ -2,11 +2,11 @@ package aragorn.autonomous.car.neural.network;
 
 import aragorn.util.MathVector;
 
-public interface Neuron {
+public abstract class Neuron {
 
-	public double getOutput(MathVector input_vector);
-	
-	public void randomizeWeight();
-	
-	public String toString();
+	protected abstract double getOutput(MathVector input_vector);
+
+	protected abstract void randomizeWeights();
+
+	public abstract String toString();
 }
