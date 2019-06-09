@@ -111,9 +111,4 @@ public class FuzzySystem implements Algorithm {
 				throw new NullPointerException(String.format("i = %d, j = %d", i, j));
 		}
 	}
-
-	@Override
-	public void train(int epoches) {
-		throw new UnsupportedOperationException("The training for the algorithm do not support.");
-	}
 }
