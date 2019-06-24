@@ -36,6 +36,7 @@ public class LinearMaze implements Paintable {
 		end_line.draw(g, c);
 	}
 
+	@Override
 	public Rectangle2D.Double getBounds() {
 		return getWall().getBounds();
 	}

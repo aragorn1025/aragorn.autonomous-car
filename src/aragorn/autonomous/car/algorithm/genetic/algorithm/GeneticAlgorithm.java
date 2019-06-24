@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import aragorn.autonomous.car.algorithm.Algorithm;
 import aragorn.autonomous.car.algorithm.EvolutionaryTrainable;
 import aragorn.autonomous.car.algorithm.TrainingDataSet;
-import aragorn.autonomous.car.object.CarStatus;
 import aragorn.neural.network.radial.basis.function.network.RadialBasisFunctionNetwork;
 import aragorn.neural.network.radial.basis.function.network.RadialBasisFunctionNetworkWeight;
 import aragorn.util.MathVector;
@@ -58,7 +57,8 @@ public class GeneticAlgorithm implements Algorithm, EvolutionaryTrainable {
 		double error = 0;
 		network.load(individual.get());
 		for (int j = 0; j < training_data_set.getDataNumber(); j++) {
-			error += MathVector.add(normalize(network.getOutput(training_data_set.getInput(j))), training_data_set.getExpectedOutput(j)).getLength();
+			error += MathVector.add(EvolutionaryTrainable.normalize(network.getOutput(training_data_set.getInput(j))), training_data_set.getExpectedOutput(j))
+					.getLength();
 		}
 		return error;
 	}
@@ -83,14 +83,6 @@ public class GeneticAlgorithm implements Algorithm, EvolutionaryTrainable {
 					}
 				}
 			}
-		}
-		return val;
-	}
-
-	private static MathVector normalize(MathVector y) {
-		MathVector val = new MathVector(y.getDimension());
-		for (int i = 0; i < y.getDimension(); i++) {
-			val.setComponent(i, (1 - Math.exp(-30.0 * y.getComponent(i))) / (1 + Math.exp(-30.0 * y.getComponent(i))) * CarStatus.MAX_WHEEL_ANGLE);
 		}
 		return val;
 	}
@@ -175,10 +167,10 @@ public class GeneticAlgorithm implements Algorithm, EvolutionaryTrainable {
 	private TrainingDataSet training_data_set;
 
 	public GeneticAlgorithm() {
-		this(8);
+		this(5);
 		setTrainingDataSet(new TrainingDataSet(new File("./data/track/train4d_all.txt")));
-		resetIndividuals(5000);
-		train(100);
+		resetIndividuals(300);
+		train(50);
 	}
 
 	public GeneticAlgorithm(int neuron_number) {
@@ -197,8 +189,8 @@ public class GeneticAlgorithm implements Algorithm, EvolutionaryTrainable {
 		input.setComponent(0, detect_front);
 		input.setComponent(1, detect_right);
 		network.load(best_individual.get());
-		System.out.println(network.getOutput(input).getComponent(0));
-		return normalize(network.getOutput(input)).getComponent(0);
+		System.out.println(EvolutionaryTrainable.normalize(network.getOutput(input)).getComponent(0));
+		return EvolutionaryTrainable.normalize(network.getOutput(input)).getComponent(0);
 	}
 
 	private void resetIndividuals(int individual_number) {

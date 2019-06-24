@@ -18,7 +18,7 @@ public class MainFrame extends GuiFrame {
 	private MazePanel maze_panel;
 
 	private InfoPanel info_panel;
-	
+
 	private String title;
 
 	public MainFrame(String title) {
@@ -64,7 +64,7 @@ public class MainFrame extends GuiFrame {
 				throw new InternalError("Unknown error.");
 		}
 	}
-	
+
 	@Override
 	public void setTitle(String title) {
 		super.setTitle(this.title + " - by " + title);

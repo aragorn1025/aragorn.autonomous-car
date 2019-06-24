@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import aragorn.autonomous.car.system.AutonomousSystem;
 import aragorn.gui.GuiPanel;
 
@@ -30,7 +31,7 @@ class InfoPanel extends GuiPanel {
 			JLabel[] labels = new JLabel[TITLES.length];
 			labels[i] = new JLabel(TITLES[i]);
 			labels[i].setFont(SMALL_FONT);
-			labels[i].setHorizontalAlignment(JTextField.TRAILING);
+			labels[i].setHorizontalAlignment(SwingConstants.TRAILING);
 			addComponent(labels[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
 			fields[i] = new JTextField();
@@ -56,11 +57,11 @@ class InfoPanel extends GuiPanel {
 	private void setText(JTextField field, double value) {
 		if (Double.isFinite(value)) {
 			field.setFont(DEFAULT_FONT);
-			field.setHorizontalAlignment(JTextField.TRAILING);
+			field.setHorizontalAlignment(SwingConstants.TRAILING);
 			field.setText(String.format("%.2f", value));
 		} else {
 			field.setFont(SMALL_FONT);
-			field.setHorizontalAlignment(JTextField.CENTER);
+			field.setHorizontalAlignment(SwingConstants.CENTER);
 			field.setText("INFINITY");
 		}
 	}

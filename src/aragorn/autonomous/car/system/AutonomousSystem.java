@@ -27,17 +27,6 @@ public class AutonomousSystem extends ControlSystem {
 		right.add(detectRight());
 	}
 
-	public ControlCode run() {
-		double angle = getAlgorithm().getOutput(detectLeft(), detectFront(), detectRight());
-		getCar().move(angle);
-		addCarTrack();
-		if (isTouchWall())
-			return ControlCode.TOUCHES_WALL;
-		if (isReachEnd())
-			return ControlCode.REACHES_END;
-		return ControlCode.RUNNING;
-	}
-
 	public CarStatus getCarTracks(int index) {
 		return tracks.get(index);
 	}
@@ -52,6 +41,7 @@ public class AutonomousSystem extends ControlSystem {
 		return String.format("%.7f %.7f %.7f", front.get(index), right.get(index), left.get(index));
 	}
 
+	@Override
 	public void reset() {
 		super.reset();
 		front.clear();
@@ -59,5 +49,16 @@ public class AutonomousSystem extends ControlSystem {
 		right.clear();
 		tracks.clear();
 		addCarTrack();
+	}
+
+	public ControlCode run() {
+		double angle = getAlgorithm().getOutput(detectLeft(), detectFront(), detectRight());
+		getCar().move(angle);
+		addCarTrack();
+		if (isTouchWall())
+			return ControlCode.TOUCHES_WALL;
+		if (isReachEnd())
+			return ControlCode.REACHES_END;
+		return ControlCode.RUNNING;
 	}
 }

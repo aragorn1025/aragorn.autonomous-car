@@ -1,11 +1,9 @@
 package aragorn.autonomous.car.algorithm.particle.swarm.optimization;
 
 import java.io.File;
-import java.util.ArrayList;
 import aragorn.autonomous.car.algorithm.Algorithm;
 import aragorn.autonomous.car.algorithm.EvolutionaryTrainable;
 import aragorn.autonomous.car.algorithm.TrainingDataSet;
-import aragorn.autonomous.car.object.CarStatus;
 import aragorn.neural.network.radial.basis.function.network.RadialBasisFunctionNetwork;
 import aragorn.neural.network.radial.basis.function.network.RadialBasisFunctionNetworkWeight;
 import aragorn.util.MathVector;
@@ -16,24 +14,25 @@ public class ParticleSwarmOptimization implements Algorithm, EvolutionaryTrainab
 		double error = 0;
 		network.load(individual.get());
 		for (int j = 0; j < training_data_set.getDataNumber(); j++) {
-			error += MathVector.add(network.getOutput(training_data_set.getInput(j)), training_data_set.getExpectedOutput(j)).getLength();
+			error += MathVector.add(EvolutionaryTrainable.normalize(network.getOutput(training_data_set.getInput(j))), training_data_set.getExpectedOutput(j))
+					.getLength();
 		}
 		return error;
 	}
 
 	private RadialBasisFunctionNetwork network;
 
-	private Individual best_individual;
+	private Individual global_best_individual;
 
 	private Individual[] individuals;
 
 	private TrainingDataSet training_data_set;
 
 	public ParticleSwarmOptimization() {
-		this(8);
+		this(5);
 		setTrainingDataSet(new TrainingDataSet(new File("./data/track/train4d_all.txt")));
-		resetIndividuals(5000);
-		train(100);
+		resetIndividuals(300);
+		train(50);
 	}
 
 	public ParticleSwarmOptimization(int neuron_number) {
@@ -51,17 +50,26 @@ public class ParticleSwarmOptimization implements Algorithm, EvolutionaryTrainab
 		input.setComponent(2, detect_left);
 		input.setComponent(0, detect_front);
 		input.setComponent(1, detect_right);
-		network.load(best_individual.get());
-		System.out.println(network.getOutput(input).getComponent(0));
-		return network.getOutput(input).getComponent(0);
+		network.load(global_best_individual.get());
+		System.out.println(EvolutionaryTrainable.normalize(network.getOutput(input)).getComponent(0));
+		return EvolutionaryTrainable.normalize(network.getOutput(input)).getComponent(0);
 	}
 
 	private void resetIndividuals(int individual_number) {
 		individuals = new Individual[individual_number];
 		RadialBasisFunctionNetworkWeight weight = new RadialBasisFunctionNetworkWeight(network);
+		double error;
 		for (int i = 0; i < individual_number; i++) {
 			individuals[i] = new Individual((RadialBasisFunctionNetworkWeight) weight.clone());
 			individuals[i].get().randomized();
+			error = getError(network, training_data_set, individuals[i]);
+			individuals[i].setError(error);
+			individuals[i].setBestError(error);
+			if (global_best_individual == null || global_best_individual.getError() > error) {
+				global_best_individual = (Individual) individuals[i].clone();
+				global_best_individual.setError(error);
+				System.out.println(global_best_individual.getError());
+			}
 		}
 	}
 
@@ -72,18 +80,20 @@ public class ParticleSwarmOptimization implements Algorithm, EvolutionaryTrainab
 	@Override
 	public void train() {
 		for (int i = 0; i < individuals.length; i++) {
-			individuals[i].setError(getError(network, training_data_set, individuals[i]));
+			individuals[i].next(global_best_individual.get(), 0.5, 0.5);
 		}
-
-		// TODO
-
+		double error;
 		for (int i = 0; i < individuals.length; i++) {
-			individuals[i] = (Individual) new_individuals.get(i).clone();
-			individuals[i].setError(getError(network, training_data_set, individuals[i]));
-			if (best_individual == null || individuals[i].getError() < best_individual.getError()) {
-				best_individual = (Individual) individuals[i].clone();
-				best_individual.setError(getError(network, training_data_set, individuals[i]));
-				System.out.println(best_individual.getError());
+			error = getError(network, training_data_set, individuals[i]);
+			individuals[i].setError(error);
+			if (error < individuals[i].getBestError()) {
+				individuals[i].setBestWeight(individuals[i].get());
+				individuals[i].setBestError(error);
+			}
+			if (error < global_best_individual.getError()) {
+				global_best_individual = (Individual) individuals[i].clone();
+				global_best_individual.setError(error);
+				System.out.println(global_best_individual.getError());
 			}
 		}
 	}
