@@ -3,6 +3,7 @@ package aragorn.autonomous.car.gui;
 import javax.swing.JMenuBar;
 import aragorn.autonomous.car.algorithm.fuzzy.system.FuzzySystem;
 import aragorn.autonomous.car.algorithm.genetic.algorithm.GeneticAlgorithm;
+import aragorn.autonomous.car.algorithm.particle.swarm.optimization.ParticleSwarmOptimization;
 import aragorn.autonomous.car.object.CircularCar;
 import aragorn.autonomous.car.object.DefaultMaze;
 import aragorn.autonomous.car.object.RandomGridMaze;
@@ -24,6 +25,8 @@ class MainMenuBar extends JMenuBar {
 		menu.getItem(0).addActionListener(new AutonomousCarActionListener.ChangeAlgorithm(frame, autonomous_system, FuzzySystem.class));
 		menu.add(new GuiMenuItem("Genetic Algorithm", '2'));
 		menu.getItem(1).addActionListener(new AutonomousCarActionListener.ChangeAlgorithm(frame, autonomous_system, GeneticAlgorithm.class));
+		menu.add(new GuiMenuItem("ParticleSwarmOptimization", '3'));
+		menu.getItem(2).addActionListener(new AutonomousCarActionListener.ChangeAlgorithm(frame, autonomous_system, ParticleSwarmOptimization.class));
 		return menu;
 	}
 

@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import aragorn.autonomous.car.algorithm.Algorithm;
 import aragorn.autonomous.car.algorithm.EvolutionaryTrainable;
-import aragorn.autonomous.car.algorithm.Individual;
 import aragorn.autonomous.car.algorithm.TrainingDataSet;
 import aragorn.autonomous.car.object.CarStatus;
 import aragorn.neural.network.radial.basis.function.network.RadialBasisFunctionNetwork;
@@ -100,30 +99,6 @@ public class GeneticAlgorithm implements Algorithm, EvolutionaryTrainable {
 		return tournament_selection(individuals);
 	}
 
-	private static ArrayList<Individual> tournament_selection(Individual[] individuals_) {
-		ArrayList<Individual> individuals = new ArrayList<Individual>();
-		for (int i = 0; i < individuals_.length; i++) {
-			individuals.add((Individual) individuals_[i].clone());
-		}
-
-		ArrayList<Individual> mating_pool = new ArrayList<>();
-		while (individuals.size() >= 2) {
-			Individual i_0 = individuals.remove((int) (Math.random() * individuals.size()));
-			Individual i_1 = individuals.remove((int) (Math.random() * individuals.size()));
-			if (i_0.getError() <= i_1.getError()) {
-				mating_pool.add((Individual) i_0.clone());
-				mating_pool.add((Individual) i_0.clone());
-			} else {
-				mating_pool.add((Individual) i_1.clone());
-				mating_pool.add((Individual) i_1.clone());
-			}
-		}
-		while (individuals.size() > 0) {
-			mating_pool.add((Individual) individuals.remove(0).clone());
-		}
-		return mating_pool;
-	}
-
 	@SuppressWarnings("unused")
 	private static ArrayList<Individual> roulette_wheel_selection(Individual[] individuals) {
 //		System.out.println("Individuals");
@@ -164,6 +139,30 @@ public class GeneticAlgorithm implements Algorithm, EvolutionaryTrainable {
 //			System.out.println(mating_pool.get(i).getError());
 //		}
 //		System.out.println("End");
+		return mating_pool;
+	}
+
+	private static ArrayList<Individual> tournament_selection(Individual[] individuals_) {
+		ArrayList<Individual> individuals = new ArrayList<Individual>();
+		for (int i = 0; i < individuals_.length; i++) {
+			individuals.add((Individual) individuals_[i].clone());
+		}
+
+		ArrayList<Individual> mating_pool = new ArrayList<>();
+		while (individuals.size() >= 2) {
+			Individual i_0 = individuals.remove((int) (Math.random() * individuals.size()));
+			Individual i_1 = individuals.remove((int) (Math.random() * individuals.size()));
+			if (i_0.getError() <= i_1.getError()) {
+				mating_pool.add((Individual) i_0.clone());
+				mating_pool.add((Individual) i_0.clone());
+			} else {
+				mating_pool.add((Individual) i_1.clone());
+				mating_pool.add((Individual) i_1.clone());
+			}
+		}
+		while (individuals.size() > 0) {
+			mating_pool.add((Individual) individuals.remove(0).clone());
+		}
 		return mating_pool;
 	}
 

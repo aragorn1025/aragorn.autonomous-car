@@ -1,16 +1,22 @@
-package aragorn.autonomous.car.algorithm;
+package aragorn.autonomous.car.algorithm.particle.swarm.optimization;
 
 import aragorn.neural.network.radial.basis.function.network.RadialBasisFunctionNetworkWeight;
 
-public class Individual implements Comparable<Individual>, Cloneable {
+class Individual implements Comparable<Individual>, Cloneable {
 
 	private RadialBasisFunctionNetworkWeight weight;
 
+	private RadialBasisFunctionNetworkWeight best_weight;
+
 	private double error;
+
+	private double best_error;
 
 	public Individual(RadialBasisFunctionNetworkWeight weight) {
 		this.weight = (RadialBasisFunctionNetworkWeight) weight.clone();
+		this.best_weight = (RadialBasisFunctionNetworkWeight) weight.clone();
 		this.error = 0;
+		this.best_error = 0;
 	}
 
 	@Override
@@ -18,6 +24,7 @@ public class Individual implements Comparable<Individual>, Cloneable {
 		try {
 			Individual val = (Individual) super.clone();
 			val.weight = (RadialBasisFunctionNetworkWeight) weight.clone();
+			val.best_weight = (RadialBasisFunctionNetworkWeight) best_weight.clone();
 //			val.error = 0;
 			return val;
 		} catch (CloneNotSupportedException e) {
@@ -34,8 +41,24 @@ public class Individual implements Comparable<Individual>, Cloneable {
 		return weight;
 	}
 
+	public double getBestError() {
+		return best_error;
+	}
+
+	public RadialBasisFunctionNetworkWeight getBestWeight() {
+		return best_weight;
+	}
+
 	public double getError() {
 		return error;
+	}
+
+	public void setBestError(double best_error) {
+		this.best_error = best_error;
+	}
+
+	public void setBestWeight(RadialBasisFunctionNetworkWeight best_weight) {
+		this.best_weight = best_weight;
 	}
 
 	public void setError(double error) {
