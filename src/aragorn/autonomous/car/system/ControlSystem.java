@@ -134,6 +134,8 @@ class ControlSystem {
 		if (maze == null)
 			throw new NullPointerException("The maze should not be null.");
 		this.maze = maze;
-		this.reset();
+		if (car != null) {
+			car.reset(getCarInitialStatus());
+		}
 	}
 }
